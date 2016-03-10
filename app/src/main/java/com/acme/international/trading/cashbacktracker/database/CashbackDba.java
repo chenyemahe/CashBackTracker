@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import com.acme.international.trading.cashbacktracker.AAUtils;
+import com.acme.international.trading.cashbacktracker.CbUtils;
 import com.acme.international.trading.cashbacktracker.CashbackProfile;
 
 import java.util.ArrayList;
@@ -41,13 +41,13 @@ public class CashbackDba {
      * @param profile
      * @return
      */
-    public Uri saveAAProfile(ContentResolver cr, CashbackProfile profile) {
+    public Uri saveCbProfile(ContentResolver cr, CashbackProfile profile) {
         if (profile == null) {
             return null;
         }
 
         ContentValues values = new ContentValues();
-        AAUtils.toContentValues(profile, values);
+        CbUtils.toContentValues(profile, values);
 
         Log.d(TAG, "insert order " + profile.getDate());
         return cr.insert(AAProvider.ProfileColumns.CONTENT_URI, values);
@@ -64,7 +64,7 @@ public class CashbackDba {
             if (cursor != null && cursor.moveToFirst()) {
                 do {
                     profile = new CashbackProfile();
-                    AAUtils.fromCursor(cursor, profile);
+                    CbUtils.fromCursor(cursor, profile);
                     profileList.add(profile);
                 } while (cursor.moveToNext());
 
@@ -94,7 +94,7 @@ public class CashbackDba {
                             id
                     }, null);
             if (cursor != null && cursor.moveToFirst()) {
-                AAUtils.fromCursor(cursor, profile);
+                CbUtils.fromCursor(cursor, profile);
 
             }
         } catch (SQLException e) {
@@ -125,7 +125,7 @@ public class CashbackDba {
             if (cursor != null && cursor.moveToFirst()) {
                 do {
                     profile = new CashbackProfile();
-                    AAUtils.fromCursor(cursor, profile);
+                    CbUtils.fromCursor(cursor, profile);
                     profileList.add(profile);
                 } while (cursor.moveToNext());
 
@@ -145,7 +145,7 @@ public class CashbackDba {
         int count = 0;
         if (profile != null) {
             count = cr.delete(AAProvider.ProfileColumns.CONTENT_URI, ID_SELECTION, new String[]{
-                    profile.getTempId()
+                    profile.getId()
             });
         }
         return count;
@@ -156,7 +156,7 @@ public class CashbackDba {
         CashbackProfile profile = getAAProfileById(cr, id);
         if (profile != null) {
             count = cr.delete(AAProvider.ProfileColumns.CONTENT_URI, ID_SELECTION, new String[]{
-                    profile.getTempId()
+                    profile.getId()
             });
         }
         return count;

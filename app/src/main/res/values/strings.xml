@@ -19,4 +19,17 @@
     <string name="orderlist">Cashback Order List</string>
     <string name="add_order">Add New Order</string>
     <string name="cashbak_company">Manage Cashback Company</string>
+
+    <!--String Add New Order -->
+    <string name="tv_order_id">Order Number</string>
+    <string name="tv_store">Store Name</string>
+    <string name="tv_date">Order Date</string>
+    <string name="tv_item">Order Info</string>
+    <string name="tv_order_cost">Total Cost</string>
+    <string name="tv_cashback_websit">Cashback From</string>
+    <string name="tv_cashback_rate">Cashback Percentage</string>
+    <string name="tv_cashback_amount">Total Cashback</string>
+    <string name="tv_cashback_state">Cashback Status</string>
+    <string name="add_submit">Submit</string>
+    <string name="no_item_info">Please input all missing blank!</string>
 </resources>

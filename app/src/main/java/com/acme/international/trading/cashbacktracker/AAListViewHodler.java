@@ -37,7 +37,7 @@ public class AAListViewHodler {
         mItemName = (TextView) v.findViewById(R.id.tv_name);
         mItemQuantity = (TextView) v.findViewById(R.id.tv_quantity);
         mItemCost = (TextView) v.findViewById(R.id.tv_cost);
-        if (TextUtils.equals(mStyle, AAUtils.EXPAND_ADAPTER_FBA)) {
+        if (TextUtils.equals(mStyle, CbUtils.EXPAND_ADAPTER_FBA)) {
             mItemCost.setVisibility(View.GONE);
         }
     }

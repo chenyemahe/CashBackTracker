@@ -2,7 +2,7 @@ package com.acme.international.trading.cashbacktracker;
 
 public class CashbackProfile {
 
-    private String mTempId;
+    private String mId;
     private String mOrderId;
     private String mDate;
     private String mOrderStore;
@@ -19,8 +19,8 @@ public class CashbackProfile {
         mOrderCost = null;
     }
 
-    public void setTempId(String id) {
-        mTempId = id;
+    public void setId(String id) {
+        mId = id;
     }
 
     public void setOrderId(String id) {
@@ -59,8 +59,8 @@ public class CashbackProfile {
         mOrderCost = cost;
     }
 
-    public String getTempId() {
-        return mTempId;
+    public String getId() {
+        return mId;
     }
 
     public String getOrderId() {

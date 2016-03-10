@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class AAUtils {
+public class CbUtils {
 
     public static final String INTENT_PROFILE_ID = "Item_ID";
 
@@ -63,7 +63,7 @@ public class AAUtils {
         int idxCashbackAmount = cursor.getColumnIndexOrThrow(AAProvider.ProfileColumns.ORDER_CASHBACK_AMOUNT);
         int idxCost = cursor.getColumnIndexOrThrow(AAProvider.ProfileColumns.ORDER_TOTAL_COST);
 
-        profile.setTempId(cursor.getString(idxId));
+        profile.setId(cursor.getString(idxId));
         profile.setOrderId(cursor.getString(idxOrderId));
         profile.setDate(cursor.getString(idxDate));
         profile.setOrderStore(cursor.getString(idxStore));
@@ -188,5 +188,9 @@ public class AAUtils {
             cost += Double.parseDouble(profile.getCost());
         }
         return String.valueOf(cost);
+    }
+
+    public static String calCashbackAmount(String totalCost, String rate) {
+        return String.valueOf(Double.parseDouble(totalCost) * Double.parseDouble(rate));
     }
 }

@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,45 +19,27 @@ import java.util.ArrayList;
 public class MainListActivity extends Activity implements View.OnClickListener, AdapterView.OnItemLongClickListener,
         ExpandableListView.OnChildClickListener {
     private ExpandableListView mListView;
-    private Button mAdd;
-    private Button mSummary;
-    private Button mAmazon;
     // private AAListViewAdapter mAdapter;
     private AAExpandableListAdapter mExpandAdapter;
-    private AAListDataHolder<AAProfile> mListHolder;
-    private ArrayList<ArrayList<ArrayList<AAProfile>>> mExpandDataList;
-    private ArrayList<ArrayList<AAProfile>> mChildList;
+    private ArrayList<ArrayList<ArrayList<CashbackProfile>>> mExpandDataList;
+    private ArrayList<ArrayList<CashbackProfile>> mChildList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.aa_main_page);
+        setContentView(R.layout.main_list);
         mListView = (ExpandableListView) findViewById(R.id.listView1);
         setViewClickListener();
-        // mAdapter = new AAListViewAdapter(this, R.layout.aalistitem,
-        // AAConstant.ADAPTER_ORIDER_LIST);
-        mExpandAdapter = new AAExpandableListAdapter(AAUtils.EXPAND_ADAPTER_ORDER);
+        mExpandAdapter = new AAExpandableListAdapter(CbUtils.EXPAND_ADAPTER_ORDER);
         mListView.setAdapter(mExpandAdapter);
-        mAdd = (Button) findViewById(R.id.bt_add);
+        Button mAdd = (Button) findViewById(R.id.bt_add);
         mAdd.setOnClickListener(this);
-        mSummary = (Button) findViewById(R.id.bt_summary);
-        mSummary.setOnClickListener(this);
-        mAmazon = (Button) findViewById(R.id.bt_amazon);
-        mAmazon.setOnClickListener(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        Button mCbCompay = (Button) findViewById(R.id.bt_company);
+        mCbCompay.setOnClickListener(this);
     }
 
     @Override
     protected void onResume() {
-        // mListHolder = new
-        // AAListDataHolder<>(AAManager.getManager().getDB().getAllProfile(getContentResolver()));
-        // mAdapter.setDataHolder(mListHolder);
         super.onResume();
         setExpViewData();
     }
@@ -69,10 +50,6 @@ public class MainListActivity extends Activity implements View.OnClickListener, 
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.edit_product_list) {
-            startActivity(new Intent(this, ProductListPage.class));
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -82,11 +59,8 @@ public class MainListActivity extends Activity implements View.OnClickListener, 
             case R.id.bt_add:
                 startActivity(new Intent(this, AddNewOrder.class));
                 break;
-            case R.id.bt_summary:
-                startActivity(new Intent(this, AASummaryPage.class));
-                break;
-            case R.id.bt_amazon:
-                startActivity(new Intent(this, ProductInventory.class));
+            case R.id.bt_company:
+                startActivity(new Intent(this, AAProductListPage.class));
                 break;
             default:
                 break;
@@ -101,7 +75,7 @@ public class MainListActivity extends Activity implements View.OnClickListener, 
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        AAProfile profile = null;
+        CashbackProfile profile = null;
         /*
          * if(mListHolder != null) { profile =
          * mListHolder.getList().get(position); }
@@ -115,7 +89,7 @@ public class MainListActivity extends Activity implements View.OnClickListener, 
         return false;
     }
 
-    private void showItemMenu(final AAProfile profile) {
+    private void showItemMenu(final CashbackProfile profile) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);
         builder.setItems(R.array.list_of_main, new DialogInterface.OnClickListener() {
             @Override
@@ -124,7 +98,7 @@ public class MainListActivity extends Activity implements View.OnClickListener, 
                     case 0:
                         break;
                     case 1:
-                        AAManager.getManager().getDB().deleteAAProfile(getContentResolver(), profile);
+                        CbManager.getManager().getDB().deleteAAProfile(getContentResolver(), profile);
                         setExpViewData();
                         mExpandAdapter.notifiListUpdate();
                         break;
@@ -137,10 +111,10 @@ public class MainListActivity extends Activity implements View.OnClickListener, 
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-        AAProfile profile = mChildList.get(groupPosition).get(childPosition);
-        String itemId = profile.getProfileId();
-        Intent intent = new Intent(this, AAItemListPage.class);
-        intent.putExtra(AAUtils.INTENT_PROFILE_ID, itemId);
+        CashbackProfile profile = mChildList.get(groupPosition).get(childPosition);
+        String itemId = profile.getId();
+        Intent intent = new Intent(this, AddNewOrder.class);
+        intent.putExtra(CbUtils.INTENT_PROFILE_ID, itemId);
         startActivity(intent);
         return false;
     }
@@ -149,7 +123,7 @@ public class MainListActivity extends Activity implements View.OnClickListener, 
         if (mExpandDataList != null && mExpandDataList.size() != 0) {
             for (int i = 0; i < mExpandDataList.size(); i++) {
                 if (mChildList.size() <= i) {
-                    mChildList.add(new ArrayList<AAProfile>());
+                    mChildList.add(new ArrayList<CashbackProfile>());
                 }
                 for (int j = mExpandDataList.get(i).size() - 1; j >= 0; j--) {
                     for (int k = 0; k < mExpandDataList.get(i).get(j).size(); k++) {
@@ -161,8 +135,8 @@ public class MainListActivity extends Activity implements View.OnClickListener, 
     }
 
     private void setExpViewData() {
-        mExpandDataList = AAUtils.sortProfileByDate(AAManager.getManager().getDB().getAllProfile(getContentResolver()));
-        mChildList = new ArrayList<ArrayList<AAProfile>>();
+        mExpandDataList = CbUtils.sortProfileByDate(CbManager.getManager().getDB().getAllProfile(getContentResolver()));
+        mChildList = new ArrayList<ArrayList<CashbackProfile>>();
         setSignleLevelChildData();
         mExpandAdapter.setListData(mExpandDataList, mChildList, this);
     }

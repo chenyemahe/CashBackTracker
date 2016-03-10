@@ -29,7 +29,7 @@
             android:background="#6F737F" />
 
         <Button
-            android:id="@+id/bt_summary"
+            android:id="@+id/bt_company"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.acme.amazon.AAFbaProfile;
-import com.acme.amazon.AAProfile;
-
 import java.util.ArrayList;
 
 public class AAExpandableListAdapter extends BaseExpandableListAdapter {
@@ -35,7 +32,7 @@ public class AAExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        if (TextUtils.equals(mStyle, AAUtils.EXPAND_ADAPTER_ORDER)) {
+        if (TextUtils.equals(mStyle, CbUtils.EXPAND_ADAPTER_ORDER)) {
             if (mOrderList == null)
                 return 0;
             else
@@ -51,7 +48,7 @@ public class AAExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getGroup(int groupPosition) {
-        if (TextUtils.equals(mStyle, AAUtils.EXPAND_ADAPTER_ORDER)) {
+        if (TextUtils.equals(mStyle, CbUtils.EXPAND_ADAPTER_ORDER)) {
             if (mOrderList == null)
                 return null;
             return mOrderList.get(groupPosition);
@@ -61,7 +58,7 @@ public class AAExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        if (TextUtils.equals(mStyle, AAUtils.EXPAND_ADAPTER_ORDER)) {
+        if (TextUtils.equals(mStyle, CbUtils.EXPAND_ADAPTER_ORDER)) {
             if (mChildList == null)
                 return null;
             return mChildList.get(groupPosition).get(childPosition);
@@ -92,7 +89,7 @@ public class AAExpandableListAdapter extends BaseExpandableListAdapter {
             ViewGroup parent) {
         TextView text = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.aa_group_view, parent,
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.cb_group_view, parent,
                     false);
             convertView.setLongClickable(false);
         }
@@ -105,11 +102,11 @@ public class AAExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
             View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.aalistitem, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.cb_list_item_view, parent, false);
         }
         AAListViewHodler holder = new AAListViewHodler(mStyle);
         holder.setOrderListView(convertView);
-        if (TextUtils.equals(mStyle, AAUtils.EXPAND_ADAPTER_ORDER)) {
+        if (TextUtils.equals(mStyle, CbUtils.EXPAND_ADAPTER_ORDER)) {
             holder.setData(mChildList.get(groupPosition).get(childPosition));
         }
         holder.setExpandId(groupPosition, childPosition);
@@ -125,7 +122,7 @@ public class AAExpandableListAdapter extends BaseExpandableListAdapter {
 
     private int getSignleLevelChildNum(int groupPosition) {
         int childNum = 0;
-        if (TextUtils.equals(mStyle, AAUtils.EXPAND_ADAPTER_ORDER)) {
+        if (TextUtils.equals(mStyle, CbUtils.EXPAND_ADAPTER_ORDER)) {
             if (mChildList.get(groupPosition).size() != 0) {
                 childNum = mChildList.get(groupPosition).size();
             }
