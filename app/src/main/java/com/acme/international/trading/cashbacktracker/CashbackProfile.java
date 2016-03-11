@@ -11,6 +11,7 @@ public class CashbackProfile {
     private String mCashbackState;
     private String mCashbackPercent;
     private String mCashbackAmount;
+    private String mCat;
     private String mOrderCost;
 
     public CashbackProfile() {
@@ -55,6 +56,10 @@ public class CashbackProfile {
         mCashbackAmount = amount;
     }
 
+    public void setCat(String cat) {
+        mCat = cat;
+    }
+
     public void setOrderCost(String cost) {
         mOrderCost = cost;
     }
@@ -93,6 +98,10 @@ public class CashbackProfile {
 
     public String getCashbackAmount() {
         return mCashbackAmount;
+    }
+
+    public String getCat() {
+        return mCat;
     }
 
     public String getCost() {

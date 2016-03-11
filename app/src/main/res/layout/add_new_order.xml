@@ -167,6 +167,21 @@
                     android:layout_weight="1"
                     android:scrollHorizontally="true" />
             </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:id="@+id/tv_cat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_cat" />
+
+                <EditText
+                    android:id="@+id/ed_cat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:scrollHorizontally="true" />
+            </TableRow>
         </TableLayout>
 
         <!-- View Table -->
@@ -299,7 +314,6 @@
                     android:layout_weight="1"/>
             </TableRow>
 
-
             <TableRow
                 android:padding="@dimen/table_margin">
                 <TextView
@@ -310,6 +324,21 @@
 
                 <TextView
                     android:id="@+id/tv_cashback_state_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </TableRow>
+
+            <TableRow
+                android:padding="@dimen/table_margin">
+                <TextView
+                    android:id="@+id/tv_cat_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_cat" />
+
+                <TextView
+                    android:id="@+id/tv_cat_3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>

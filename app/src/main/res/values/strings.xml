@@ -30,6 +30,7 @@
     <string name="tv_cashback_rate">Cashback Percentage</string>
     <string name="tv_cashback_amount">Total Cashback</string>
     <string name="tv_cashback_state">Cashback Status</string>
+    <string name="tv_cat">Cashback Category</string>
     <string name="add_submit">Submit</string>
     <string name="no_item_info">Please input all missing blank!</string>
 </resources>

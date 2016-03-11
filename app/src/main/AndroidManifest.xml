@@ -26,6 +26,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainListActivity">
+        </activity>
+        <activity android:name=".AddNewOrder">
+
+        </activity>
+        <activity android:name=".AAProductListPage">
 
         </activity>
 

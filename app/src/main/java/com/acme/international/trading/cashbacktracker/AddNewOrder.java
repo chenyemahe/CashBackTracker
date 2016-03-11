@@ -12,6 +12,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddNewOrder extends Activity implements OnClickListener {
@@ -27,6 +28,7 @@ public class AddNewOrder extends Activity implements OnClickListener {
     private EditText mCashbackPercent;
     private EditText mCashbackAmount;
     private EditText mOrderCost;
+    private EditText mCat;
     private Button mSubmit;
 
     private TableLayout add_layout;
@@ -117,6 +119,9 @@ public class AddNewOrder extends Activity implements OnClickListener {
             }
         });
 
+        mCat = (EditText) findViewById(R.id.ed_cat);
+        mCat.setOnClickListener(this);
+
         mSubmit = (Button) findViewById(R.id.bt_submit);
         mSubmit.setOnClickListener(this);
     }
@@ -130,7 +135,27 @@ public class AddNewOrder extends Activity implements OnClickListener {
 
         CashbackProfile profile = CbManager.getManager().getDB().getAAProfileById(getContentResolver(), id);
 
+        TextView orderId = (TextView) findViewById(R.id.tv_order_id_3);
+        TextView date = (TextView) findViewById(R.id.tv_date_3);
+        TextView orderStore = (TextView) findViewById(R.id.tv_store_3);
+        TextView orderDetail = (TextView) findViewById(R.id.tv_item_3);
+        TextView cashbackCompany = (TextView) findViewById(R.id.tv_cashback_websit_3);
+        TextView cashbackState = (TextView) findViewById(R.id.tv_cashback_state_3);
+        TextView cashbackPercent = (TextView) findViewById(R.id.tv_cashback_rate_3);
+        TextView cashbackAmount = (TextView) findViewById(R.id.tv_cashback_amount_3);
+        TextView orderCost = (TextView) findViewById(R.id.tv_order_cost_3);
+        TextView cat = (TextView) findViewById(R.id.tv_cat_3);
 
+        orderId.setText(profile.getOrderId());
+        date.setText(profile.getDate());
+        orderStore.setText(profile.getOrderStore());
+        orderDetail.setText(profile.getOrderDetail());
+        cashbackCompany.setText(profile.getCashbackCompany());
+        cashbackState.setText(profile.getCashbackState());
+        cashbackPercent.setText(profile.getCashbackPercent());
+        cashbackAmount.setText(profile.getCashbackAmount());
+        orderCost.setText(profile.getCost());
+        cat.setText(profile.getCat());
     }
 
     @Override
@@ -154,6 +179,7 @@ public class AddNewOrder extends Activity implements OnClickListener {
         String orderCbState = mCashbackState.getText().toString();
         String orderCbPercent = mCashbackPercent.getText().toString();
         String orderCbAmount = mCashbackAmount.getText().toString();
+        String orderCat = mCat.getText().toString();
         String orderCost = mOrderCost.getText().toString();
 
         if (TextUtils.isEmpty(orderId) || TextUtils.isEmpty(orderDate)
@@ -173,6 +199,7 @@ public class AddNewOrder extends Activity implements OnClickListener {
             profile.setCashbackState(orderCbState);
             profile.setCashbackPercent(orderCbPercent);
             profile.setCashbackAmount(orderCbAmount);
+            profile.setCat(orderCat);
             profile.setOrderCost(orderCost);
             CbManager.getManager().getDB().saveCbProfile(getContentResolver(), profile);
         }

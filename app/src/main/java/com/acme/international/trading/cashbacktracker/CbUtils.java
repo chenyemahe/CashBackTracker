@@ -48,6 +48,7 @@ public class CbUtils {
         values.put(AAProvider.ProfileColumns.ORDER_CASHBACK_STATE, profile.getCashbackState());
         values.put(AAProvider.ProfileColumns.ORDER_CASHBACK_PERCENT, profile.getCashbackPercent());
         values.put(AAProvider.ProfileColumns.ORDER_CASHBACK_AMOUNT, profile.getCashbackAmount());
+        values.put(AAProvider.ProfileColumns.ORDER_CATEGORY, profile.getCat());
         values.put(AAProvider.ProfileColumns.ORDER_TOTAL_COST, profile.getCost());
     }
 
@@ -61,6 +62,7 @@ public class CbUtils {
         int idxCashbackState = cursor.getColumnIndexOrThrow(AAProvider.ProfileColumns.ORDER_CASHBACK_STATE);
         int idxCashbackPercent = cursor.getColumnIndexOrThrow(AAProvider.ProfileColumns.ORDER_CASHBACK_PERCENT);
         int idxCashbackAmount = cursor.getColumnIndexOrThrow(AAProvider.ProfileColumns.ORDER_CASHBACK_AMOUNT);
+        int idxCategory = cursor.getColumnIndexOrThrow(AAProvider.ProfileColumns.ORDER_CATEGORY);
         int idxCost = cursor.getColumnIndexOrThrow(AAProvider.ProfileColumns.ORDER_TOTAL_COST);
 
         profile.setId(cursor.getString(idxId));
@@ -72,6 +74,7 @@ public class CbUtils {
         profile.setCashbackState(cursor.getString(idxCashbackState));
         profile.setCashbackPercent(cursor.getString(idxCashbackPercent));
         profile.setCashbackAmount(cursor.getString(idxCashbackAmount));
+        profile.setCat(cursor.getString(idxCategory));
         profile.setOrderCost(cursor.getString(idxCost));
     }
 

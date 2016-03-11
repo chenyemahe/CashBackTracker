@@ -60,6 +60,8 @@ public class AAProvider extends ContentProvider {
         String ORDER_CASHBACK_AMOUNT = "order_cashback_amount";
 
         String ORDER_TOTAL_COST = "order_total_cost";
+
+        String ORDER_CATEGORY = "order_category";
     }
 
     @Override
@@ -184,12 +186,13 @@ public class AAProvider extends ContentProvider {
             db.execSQL("CREATE TABLE " + ProfileColumns.TBL_AA_PROFILES + " (" + ProfileColumns._ID
                     + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ProfileColumns.ORDER_ID
                     + " VARCHAR, " + ProfileColumns.ORDER_DATE + " VARCHAR, "
-                    + ProfileColumns.ORDER_STORE + " INTEGER, " + ProfileColumns.ORDER_DETAIL
+                    + ProfileColumns.ORDER_STORE + " VARCHAR, " + ProfileColumns.ORDER_DETAIL
                     + " VARCHAR, " + ProfileColumns.ORDER_CASHBACK_COMPANY + " VARCHAR, "
                     + ProfileColumns.ORDER_CASHBACK_STATE + " VARCHAR, "
                     + ProfileColumns.ORDER_CASHBACK_PERCENT + " VARCHAR, "
                     + ProfileColumns.ORDER_CASHBACK_AMOUNT + " VARCHAR, "
-                    + ProfileColumns.ORDER_TOTAL_COST + " INTEGER);");
+                    + ProfileColumns.ORDER_CATEGORY + " VARCHAR, "
+                    + ProfileColumns.ORDER_TOTAL_COST + " VARCHAR);");
         }
 
         @Override
