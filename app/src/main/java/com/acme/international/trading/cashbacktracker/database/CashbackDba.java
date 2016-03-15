@@ -54,14 +54,14 @@ public class CashbackDba {
     }
 
     public List<CashbackProfile> getAllProfile(ContentResolver cr) {
-        List<CashbackProfile> profileList = new ArrayList<CashbackProfile>();
-
+        List<CashbackProfile> profileList = null;
         CashbackProfile profile = null;
         Cursor cursor = null;
 
         try {
             cursor = cr.query(AAProvider.ProfileColumns.CONTENT_URI, null, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
+                profileList = new ArrayList<CashbackProfile>();
                 do {
                     profile = new CashbackProfile();
                     CbUtils.fromCursor(cursor, profile);
@@ -81,7 +81,7 @@ public class CashbackDba {
     }
 
     public CashbackProfile getAAProfileById(ContentResolver cr, String id) {
-        CashbackProfile profile = new CashbackProfile();
+        CashbackProfile profile = null;
         Log.d(TAG, "{getAAProfile} the ID is : " + id);
         if (id == null)
             return null;
@@ -94,6 +94,7 @@ public class CashbackDba {
                             id
                     }, null);
             if (cursor != null && cursor.moveToFirst()) {
+                profile = new CashbackProfile();
                 CbUtils.fromCursor(cursor, profile);
 
             }
@@ -108,8 +109,8 @@ public class CashbackDba {
         return profile;
     }
 
-    public List<CashbackProfile> getAAProfile(ContentResolver cr, String Date) {
-        List<CashbackProfile> profileList = new ArrayList<CashbackProfile>();
+    public List<CashbackProfile> getAAProfilebyDate(ContentResolver cr, String Date) {
+        List<CashbackProfile> profileList = null;
         Log.d(TAG, "{getAAProfile} the Date is : " + Date);
         if (Date == null)
             return null;
@@ -123,6 +124,7 @@ public class CashbackDba {
                             Date
                     }, null);
             if (cursor != null && cursor.moveToFirst()) {
+                profileList = new ArrayList<CashbackProfile>();
                 do {
                     profile = new CashbackProfile();
                     CbUtils.fromCursor(cursor, profile);

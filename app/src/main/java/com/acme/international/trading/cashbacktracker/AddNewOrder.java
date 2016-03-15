@@ -1,6 +1,7 @@
 package com.acme.international.trading.cashbacktracker;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -20,7 +21,9 @@ public class AddNewOrder extends Activity implements OnClickListener {
     private static final String TAG = "AddNewOrder";
 
     private EditText mOrderId;
-    private EditText mDate;
+    private EditText mDate_mm;
+    private EditText mDate_dd;
+    private EditText mDate_year;
     private AutoCompleteTextView mOrderStore;
     private EditText mOrderDetail;
     private AutoCompleteTextView mCashbackCompany;
@@ -40,6 +43,17 @@ public class AddNewOrder extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new_order);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         String profileId = getIntent().getStringExtra(CbUtils.INTENT_PROFILE_ID);
         if(TextUtils.isEmpty(profileId)) {
             setLayoutViewForAdding();
@@ -55,8 +69,14 @@ public class AddNewOrder extends Activity implements OnClickListener {
         mOrderId = (EditText) findViewById(R.id.ed_order_id);
         mOrderId.setOnClickListener(this);
 
-        mDate = (EditText) findViewById(R.id.ed_date);
-        mDate.setOnClickListener(this);
+        mDate_mm = (EditText) findViewById(R.id.ed_date_mm);
+        mDate_mm.setOnClickListener(this);
+
+        mDate_dd = (EditText) findViewById(R.id.ed_date_dd);
+        mDate_dd.setOnClickListener(this);
+
+        mDate_year = (EditText) findViewById(R.id.ed_date_year);
+        mDate_year.setOnClickListener(this);
 
         mOrderStore = (AutoCompleteTextView) findViewById(R.id.act_store);
         ArrayAdapter<String> sAdapter = new ArrayAdapter<>(this,
@@ -130,8 +150,8 @@ public class AddNewOrder extends Activity implements OnClickListener {
         add_layout = (TableLayout) findViewById(R.id.tl_add);
         add_layout.setVisibility(View.GONE);
 
-        mSubmit = (Button) findViewById(R.id.bt_submit);
-        mSubmit.setVisibility(View.GONE);
+        view_layout = (TableLayout) findViewById(R.id.tl_view);
+        view_layout.setVisibility(View.VISIBLE);
 
         CashbackProfile profile = CbManager.getManager().getDB().getAAProfileById(getContentResolver(), id);
 
@@ -172,7 +192,7 @@ public class AddNewOrder extends Activity implements OnClickListener {
 
     private void submitItem() {
         String orderId = mOrderId.getText().toString();
-        String orderDate = mDate.getText().toString();
+        String orderDate = mDate_mm.getText().toString() + "/" + mDate_dd.getText().toString() + "/" + mDate_year.getText().toString();
         String orderStore = mOrderStore.getText().toString();
         String orderDetail = mOrderDetail.getText().toString();
         String orderCbCompany = mCashbackCompany.getText().toString();
@@ -190,6 +210,12 @@ public class AddNewOrder extends Activity implements OnClickListener {
                     getResources().getString(R.string.no_item_info),
                     Toast.LENGTH_LONG).show();
         } else {
+            if(CbManager.getManager().getDB().getAAProfileById(getContentResolver(),orderId) != null) {
+                Toast.makeText(this,
+                        getResources().getString(R.string.existed_order),
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
             CashbackProfile profile = new CashbackProfile();
             profile.setOrderId(orderId);
             profile.setDate(orderDate);
@@ -202,6 +228,7 @@ public class AddNewOrder extends Activity implements OnClickListener {
             profile.setCat(orderCat);
             profile.setOrderCost(orderCost);
             CbManager.getManager().getDB().saveCbProfile(getContentResolver(), profile);
+            this.finish();
         }
     }
 
