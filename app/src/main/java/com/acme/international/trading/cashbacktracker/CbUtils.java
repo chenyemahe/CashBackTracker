@@ -86,6 +86,8 @@ public class CbUtils {
      */
     public static synchronized ArrayList<ArrayList<ArrayList<CashbackProfile>>> sortProfileByDate(
             List<CashbackProfile> profileList) {
+        if (profileList == null)
+            return null;
         ArrayList<ArrayList<ArrayList<CashbackProfile>>> sortListMap = new ArrayList<ArrayList<ArrayList<CashbackProfile>>>();
         ArrayList<String> yearList = new ArrayList<String>();
         String year = UNSORT;

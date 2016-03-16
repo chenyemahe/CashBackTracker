@@ -136,6 +136,8 @@ public class MainListActivity extends Activity implements View.OnClickListener, 
 
     private void setExpViewData() {
         mExpandDataList = CbUtils.sortProfileByDate(CbManager.getManager().getDB().getAllProfile(getContentResolver()));
+        if (mExpandDataList ==  null)
+            return;
         mChildList = new ArrayList<ArrayList<CashbackProfile>>();
         setSignleLevelChildData();
         mExpandAdapter.setListData(mExpandDataList, mChildList, this);

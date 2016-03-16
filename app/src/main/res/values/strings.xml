@@ -34,7 +34,7 @@
     <string name="add_submit">Submit</string>
     <string name="no_item_info">Please input all missing blank!</string>
     <string name="existed_order">The order number existed! Please use different order number!</string>
-    <string name="hint_mm">mm</string>
+    <string name="hint_mm">mm/dd/year</string>
     <string name="hint_dd">dd</string>
     <string name="hint_year">year</string>
     <string name="hint_symbol">/</string>
