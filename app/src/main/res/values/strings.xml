@@ -14,8 +14,10 @@
         completions."
     </string>
 
+    <string name="bt_cashback">Cashback Tracker</string>
+    <string name="bt_giftcard">Gift Card Tracker</string>
 
-    <!-- String Main List -->
+    <!-- String Cashback List -->
     <string name="orderlist">Cashback Order List</string>
     <string name="add_order">Add New Order</string>
     <string name="cashbak_company">Manage Cashback Company</string>

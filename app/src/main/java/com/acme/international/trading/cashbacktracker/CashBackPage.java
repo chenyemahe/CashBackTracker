@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by ye1.chen on 3/3/16.
  */
-public class MainListActivity extends Activity implements View.OnClickListener, AdapterView.OnItemLongClickListener,
+public class CashBackPage extends Activity implements View.OnClickListener, AdapterView.OnItemLongClickListener,
         ExpandableListView.OnChildClickListener {
     private ExpandableListView mListView;
     // private AAListViewAdapter mAdapter;
@@ -27,7 +27,7 @@ public class MainListActivity extends Activity implements View.OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_list);
+        setContentView(R.layout.main_cash_back_list);
         mListView = (ExpandableListView) findViewById(R.id.listView1);
         setViewClickListener();
         mExpandAdapter = new AAExpandableListAdapter(CbUtils.EXPAND_ADAPTER_ORDER);

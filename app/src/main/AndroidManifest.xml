@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name="com.acme.international.trading.LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,13 +25,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainListActivity">
+
+        <activity android:name="com.acme.international.trading.MainPage">
         </activity>
+
+        <activity android:name=".CashBackPage">
+        </activity>
+
         <activity android:name=".AddNewOrder">
-
         </activity>
-        <activity android:name=".AAProductListPage">
 
+        <activity android:name=".AAProductListPage">
+        </activity>
+
+        <activity android:name="com.acme.international.trading.giftcardtracker.GiftCardPage">
         </activity>
 
         <provider

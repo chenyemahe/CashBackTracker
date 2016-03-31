@@ -1,4 +1,4 @@
-package com.acme.international.trading.cashbacktracker;
+package com.acme.international.trading;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -29,6 +29,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.acme.international.trading.cashbacktracker.CashBackPage;
+import com.acme.international.trading.cashbacktracker.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +91,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(LoginActivity.this,MainListActivity.class));
+                //startActivity(new Intent(LoginActivity.this,CashBackPage.class));
+                startActivity(new Intent(LoginActivity.this,CashBackPage.class));
                 //TODO: handle login
                 //attemptLogin();
             }
