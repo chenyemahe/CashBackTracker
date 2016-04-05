@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <string-array name="list_of_item">
-            <item>Isotonix OPC-3</item>
-            <item>Bliss Anti-Stress Formula</item>
-            <item>Isotonix Multivitamin</item>
-            <item>Isotonix Multivitamin with Iron</item>
-            <item>Isotonix Calcium</item>
-            <item>Isotonix Advanced B-Complex</item>
-            <item>Curcumin Extreme</item>
-            <item>Isotonix Vitamin C</item>
-            <item>Isotonix Enzyme</item>
-            <item>Isotonix Joint</item>
-            <item>NutriClean 7-Day Cleansing System</item>
-            <item>Ultimate Aloe Gel</item>
-            <item>Timeless Prescription Oxygen Extreme</item>
-            <item>Isotonix Resveratrol</item>
-            <item>Isotonix Enzymes 20 Pack</item>
-            <item>NutriClean Probiotics</item>
-            <item>Heart Health System</item>
-            <item>Heart Health Omega III Fish Oil 60 Serving</item>
-            <item>Heart Health Omega III Fish Oil 30 Serving</item>
-            <item>NutriClean Hepatocleanse</item>
-            <item>Ultimate Aloe Juice Strawberry</item>
-            <item>TLS Detox Kit</item>
-            <item>TLS Core</item>
-            <item>Isotonix Multivitamin without Iron 30 day</item>
-            <item>Isotonix B-Complex 30 day</item>
-            <item>Isotonix Opc3 30 Serving</item>
-            <item>Isotonix Multivitamin with Iron 30 day</item>
-            <item>Nutrition Shakes Chocolate</item>
-            <item>Nutrition Shakes Vanilla</item>
-            <item>Hat Hook</item>
-            <item>Apple Cable</item>
-            <item>Isotonix Multi-mineral</item>
-        </string-array>
-        
-        <string-array name="list_of_main">
-            <item>EDIT</item>
-            <item>DELETE</item>
-        </string-array>
-        
-        <string-array name="list_of_product">
-            <item>DELETE</item>
-        </string-array>
+    <string-array name="list_of_store">
+        <item>Kohls</item>
+        <item>Home Depot</item>
+        <item>Wal-mart</item>
+        <item>Groupon</item>
+        <item>eBay</item>
+        <item>Best Buy</item>
+        <item>Target</item>
+        <item>Priceline</item>
+        <item>Amazon</item>
+        <item>Staple</item>
+        <item>Macy\'s</item>
+        <item>Nordstrom</item>
+        <item>Bonton</item>
+    </string-array>
+
+    <string-array name="list_of_cashback_website">
+        <item>ShopAtHome</item>
+        <item>Top Cashback</item>
+        <item>Discover Deals</item>
+        <item>Befrugal</item>
+        <item>Shop.com</item>
+        <item>Swag Bucks</item>
+        <item>Upromise</item>
+        <item>Giving Assistant</item>
+        <item>Ebates</item>
+        <item>Splender</item>
+    </string-array>
+
+    <string-array name="list_of_status">
+        <item>None</item>
+        <item>Pending</item>
+        <item>Approved</item>
+    </string-array>
+
+    <string-array name="list_of_main">
+        <item>EDIT</item>
+        <item>DELETE</item>
+    </string-array>
+
+    <string-array name="list_of_product">
+        <item>DELETE</item>
+    </string-array>
 
     <string-array name="mm">
         <item>1</item>

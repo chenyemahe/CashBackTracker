@@ -1,4 +1,4 @@
-package com.acme.international.trading.cashbacktracker;
+package com.acme.international.trading.cashbacktracker.addorder;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -14,15 +14,21 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.acme.international.trading.cashbacktracker.CashbackProfile;
+import com.acme.international.trading.cashbacktracker.CbManager;
+import com.acme.international.trading.cashbacktracker.CbUtils;
+import com.acme.international.trading.cashbacktracker.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class AddNewOrder extends Activity implements OnClickListener,View.OnFocusChangeListener {
+public class AddNewOrder extends Activity implements OnClickListener, View.OnFocusChangeListener {
 
     private static final String TAG = "AddNewOrder";
 
@@ -31,7 +37,7 @@ public class AddNewOrder extends Activity implements OnClickListener,View.OnFocu
     private AutoCompleteTextView mOrderStore;
     private EditText mOrderDetail;
     private AutoCompleteTextView mCashbackCompany;
-    private EditText mCashbackState;
+    private Spinner mCashbackState;
     private EditText mCashbackPercent;
     private EditText mCashbackAmount;
     private EditText mOrderCost;
@@ -42,13 +48,18 @@ public class AddNewOrder extends Activity implements OnClickListener,View.OnFocu
     private TableLayout view_layout;
     private DatePickerDialog mDatePickerDialog;
     private SimpleDateFormat dateFormatter;
+    private String profileEditId;
 
     private final static String TYPE_STORE = "type_store";
     private final static String TYPE_CASHBACK = "type_cashback";
+
+    public final static String INTENT_TYPE_EDIT = "intent_type_edit";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new_order);
+        profileEditId = getIntent().getStringExtra(AddNewOrder.INTENT_TYPE_EDIT);
     }
 
     @Override
@@ -61,7 +72,7 @@ public class AddNewOrder extends Activity implements OnClickListener,View.OnFocu
     protected void onResume() {
         super.onResume();
         String profileId = getIntent().getStringExtra(CbUtils.INTENT_PROFILE_ID);
-        if(TextUtils.isEmpty(profileId)) {
+        if (TextUtils.isEmpty(profileId)) {
             setLayoutViewForAdding();
         } else {
             setLayoutViewForView(profileId);
@@ -77,7 +88,8 @@ public class AddNewOrder extends Activity implements OnClickListener,View.OnFocu
 
         mDate = (EditText) findViewById(R.id.ed_date_mm);
         mDate.setOnClickListener(this);
-        mDate.setOnFocusChangeListener(this);;
+        mDate.setOnFocusChangeListener(this);
+        ;
 
         mOrderStore = (AutoCompleteTextView) findViewById(R.id.act_store);
         ArrayAdapter<String> sAdapter = new ArrayAdapter<>(this,
@@ -95,8 +107,11 @@ public class AddNewOrder extends Activity implements OnClickListener,View.OnFocu
         mCashbackCompany.setOnClickListener(this);
 
 
-        mCashbackState = (EditText) findViewById(R.id.ed_cashback_state);
-        mCashbackState.setOnClickListener(this);
+        mCashbackState = (Spinner) findViewById(R.id.sp_cashback_state);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.list_of_status, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mCashbackState.setAdapter(adapter);
 
         mCashbackPercent = (EditText) findViewById(R.id.ed_cashback_rate);
         mCashbackPercent.setOnClickListener(this);
@@ -156,7 +171,10 @@ public class AddNewOrder extends Activity implements OnClickListener,View.OnFocu
                 mDate.setText(dateFormatter.format(newDate.getTime()));
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        if (!TextUtils.isEmpty(profileEditId))
+            setEditProfileView(profileEditId);
     }
 
     private void setLayoutViewForView(String id) {
@@ -167,6 +185,9 @@ public class AddNewOrder extends Activity implements OnClickListener,View.OnFocu
         view_layout.setVisibility(View.VISIBLE);
 
         CashbackProfile profile = CbManager.getManager().getDB().getAAProfileById(getContentResolver(), id);
+
+        TextView title = (TextView) findViewById(R.id.tv_title);
+        title.setText(getResources().getString(R.string.title_add_view_2));
 
         TextView orderId = (TextView) findViewById(R.id.tv_order_id_3);
         TextView date = (TextView) findViewById(R.id.tv_date_3);
@@ -211,27 +232,32 @@ public class AddNewOrder extends Activity implements OnClickListener,View.OnFocu
         String orderStore = mOrderStore.getText().toString();
         String orderDetail = mOrderDetail.getText().toString();
         String orderCbCompany = mCashbackCompany.getText().toString();
-        String orderCbState = mCashbackState.getText().toString();
+        String orderCbState = mCashbackState.getSelectedItem().toString();
         String orderCbPercent = mCashbackPercent.getText().toString();
         String orderCbAmount = mCashbackAmount.getText().toString();
         String orderCat = mCat.getText().toString();
         String orderCost = mOrderCost.getText().toString();
 
         if (TextUtils.isEmpty(orderId) || TextUtils.isEmpty(orderDate)
-                || TextUtils.isEmpty(orderStore)||TextUtils.isEmpty(orderDetail) || TextUtils.isEmpty(orderCbCompany)
-                || TextUtils.isEmpty(orderCbState)||TextUtils.isEmpty(orderCbPercent) || TextUtils.isEmpty(orderCbAmount)
+                || TextUtils.isEmpty(orderStore) || TextUtils.isEmpty(orderDetail) || TextUtils.isEmpty(orderCbCompany)
+                || TextUtils.isEmpty(orderCbState) || TextUtils.isEmpty(orderCbPercent) || TextUtils.isEmpty(orderCbAmount)
                 || TextUtils.isEmpty(orderCost)) {
             Toast.makeText(this,
                     getResources().getString(R.string.no_item_info),
                     Toast.LENGTH_LONG).show();
         } else {
-            if(CbManager.getManager().getDB().getAAProfileById(getContentResolver(),orderId) != null) {
+            if (CbManager.getManager().getDB().getAAProfileById(getContentResolver(), orderId) != null) {
                 Toast.makeText(this,
                         getResources().getString(R.string.existed_order),
                         Toast.LENGTH_LONG).show();
                 return;
             }
-            CashbackProfile profile = new CashbackProfile();
+            CashbackProfile profile;
+            if (TextUtils.isEmpty(profileEditId)) {
+                profile = new CashbackProfile();
+            } else {
+                profile = CbManager.getManager().getDB().getAAProfileById(getContentResolver(), profileEditId);
+            }
             profile.setOrderId(orderId);
             profile.setDate(orderDate);
             profile.setOrderStore(orderStore);
@@ -242,14 +268,25 @@ public class AddNewOrder extends Activity implements OnClickListener,View.OnFocu
             profile.setCashbackAmount(orderCbAmount);
             profile.setCat(orderCat);
             profile.setOrderCost(orderCost);
-            CbManager.getManager().getDB().saveCbProfile(getContentResolver(), profile);
+
+            if (TextUtils.isEmpty(profileEditId)) {
+                CbManager.getManager().getDB().saveCbProfile(getContentResolver(), profile);
+            } else {
+                CbManager.getManager().getDB().updateAAProfile(getContentResolver(), profile);
+            }
             this.finish();
         }
     }
 
     private String[] getStringArray(String type) {
-        String[] stringArrayFromRes = getResources().getStringArray(
-                R.array.list_of_item);
+        String[] stringArrayFromRes = null;
+        if (TextUtils.equals(type, TYPE_STORE)) {
+            stringArrayFromRes = getResources().getStringArray(
+                    R.array.list_of_store);
+        } else if (TextUtils.equals(type, TYPE_CASHBACK)) {
+            stringArrayFromRes = getResources().getStringArray(
+                    R.array.list_of_cashback_website);
+        }
         return stringArrayFromRes;
     }
 
@@ -261,5 +298,31 @@ public class AddNewOrder extends Activity implements OnClickListener,View.OnFocu
                 mDatePickerDialog.show();
             }
         }
+    }
+
+    private void setEditProfileView(String id) {
+        CashbackProfile profile = CbManager.getManager().getDB().getAAProfileById(getContentResolver(), id);
+        mOrderId.setText(profile.getOrderId());
+        mDate.setText(profile.getDate());
+        mOrderStore.setText(profile.getOrderStore());
+        mOrderDetail.setText(profile.getOrderDetail());
+        mCashbackCompany.setText(profile.getCashbackCompany());
+        mCashbackState.setSelection(getSpinnerIndex(profile.getCashbackState()));
+        mCashbackPercent.setText(profile.getCashbackPercent());
+        mCashbackAmount.setText(profile.getCashbackAmount());
+        mOrderCost.setText(profile.getCost());
+        mCat.setText(profile.getCat());
+    }
+
+    private int getSpinnerIndex(String s) {
+        int index = 0;
+        String[] array = CbUtils.getCbStateArray(this);
+        for (int i = 0; i < array.length; i++) {
+            if (TextUtils.equals(s, array[i])) {
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 }

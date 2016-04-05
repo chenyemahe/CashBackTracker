@@ -10,6 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_vertical_margin_left"
         android:layout_marginStart="@dimen/activity_vertical_margin_left"
+        android:paddingLeft="@dimen/activity_vertical_margin_left"
+        android:paddingStart="@dimen/activity_vertical_margin_left"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 

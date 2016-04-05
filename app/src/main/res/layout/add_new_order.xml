@@ -1,56 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_vertical_margin">
+    android:background="@color/color_background"
+    android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:id="@+id/tv_top"
-        android:background="@android:color/black"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:text="@string/title_add_view"
-        android:id="@+id/title"
-        android:layout_below="@+id/tv_top"
+        android:textColor="@android:color/white"
+        android:layout_weight="1"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:scrollbars="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
 
             <TableLayout
                 android:id="@+id/tl_add"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:stretchColumns="1">
 
                 <TableRow>
-
                     <TextView
                         android:id="@+id/tv_order_id"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_order_id" />
+                        style="@style/add_order_text_style"
+                        android:text="@string/tv_order_id"/>
 
                     <EditText
                         android:id="@+id/ed_order_id"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        style="@style/add_order_edit_text_style"
                         android:imeOptions="actionNext"
                         android:inputType="textPostalAddress"
                         android:scrollHorizontally="true" />
@@ -58,109 +50,139 @@
                     <requestFocus />
                 </TableRow>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
+
                 <TableRow>
 
                     <TextView
                         android:id="@+id/tv_store"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_store" />
+                        android:text="@string/tv_store"
+                        style="@style/add_order_text_style" />
 
                     <AutoCompleteTextView
                         android:id="@+id/act_store"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_edit_text_style"
                         android:layout_weight="1"
                         android:imeOptions="actionNext"
                         android:inputType="textPostalAddress"
                         android:scrollHorizontally="true" />
                 </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
 
                 <TableRow>
 
                     <TextView
                         android:id="@+id/tv_item"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_item" />
+                        android:text="@string/tv_item"
+                        style="@style/add_order_text_style" />
 
                     <EditText
                         android:id="@+id/ed_item"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_edit_text_style"
                         android:layout_weight="1"
                         android:imeOptions="actionNext"
                         android:inputType="textPostalAddress"
                         android:scrollHorizontally="true" />
                 </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
 
                 <TableRow>
 
                     <TextView
                         android:id="@+id/tv_cashback_websit"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_cashback_websit" />
+                        android:text="@string/tv_cashback_websit"
+                        style="@style/add_order_text_style" />
 
                     <AutoCompleteTextView
                         android:id="@+id/act_cashback_websit"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_edit_text_style"
                         android:layout_weight="1"
                         android:imeOptions="actionNext"
                         android:inputType="textPostalAddress"
                         android:scrollHorizontally="true" />
                 </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
 
                 <TableRow>
 
                     <TextView
                         android:id="@+id/tv_cashback_state"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style"
                         android:text="@string/tv_cashback_state" />
 
-                    <EditText
-                        android:id="@+id/ed_cashback_state"
+                    <Spinner
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/tb_row_hight"
+                        android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPostalAddress"
-                        android:scrollHorizontally="true" />
+                        android:id="@+id/sp_cashback_state"
+                        android:layout_column="1" />
                 </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
 
                 <TableRow>
 
                     <TextView
                         android:id="@+id/tv_cat"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style"
                         android:text="@string/tv_cat" />
 
                     <EditText
                         android:id="@+id/ed_cat"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_edit_text_style"
                         android:layout_weight="1"
                         android:imeOptions="actionNext"
                         android:inputType="textPostalAddress"
-                        android:scrollHorizontally="true" />
+                        android:scrollHorizontally="true"
+                        android:text="@string/ed_default"/>
                 </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
 
                 <TableRow>
 
                     <TextView
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style"
                         android:layout_gravity="center_vertical"
                         android:text="@string/tv_date" />
 
                         <EditText
                             android:id="@+id/ed_date_mm"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/add_order_edit_text_style"
                             android:hint="@string/hint_mm"
                             android:imeOptions="actionNext"
                             android:layout_weight="1"
@@ -168,56 +190,70 @@
                             android:scrollHorizontally="true" />
                 </TableRow>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
+
                 <TableRow>
 
                     <TextView
                         android:id="@+id/tv_order_cost"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style"
                         android:text="@string/tv_order_cost" />
 
                     <EditText
                         android:id="@+id/ed_order_cost"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_edit_text_style"
                         android:layout_weight="1"
                         android:imeOptions="actionNext"
                         android:inputType="numberDecimal"
                         android:scrollHorizontally="true" />
                 </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
 
                 <TableRow>
 
                     <TextView
                         android:id="@+id/tv_cashback_rate"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style"
                         android:text="@string/tv_cashback_rate" />
 
                     <EditText
                         android:id="@+id/ed_cashback_rate"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_edit_text_style"
                         android:layout_weight="1"
                         android:imeOptions="actionNext"
                         android:inputType="numberDecimal"
                         android:scrollHorizontally="true" />
                 </TableRow>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
+
                 <TableRow>
 
                     <TextView
                         android:id="@+id/tv_cashback_amount"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_cashback_amount" />
+                        style="@style/add_order_text_style"
+                        android:text="@string/tv_cashback_amount"/>
 
                     <EditText
                         android:id="@+id/ed_cashback_amount"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_edit_text_style"
                         android:layout_weight="1"
-                        android:imeOptions="actionNext"
                         android:inputType="numberDecimal"
                         android:scrollHorizontally="true" />
                 </TableRow>
@@ -226,180 +262,214 @@
                     android:id="@+id/bt_submit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/add_button"
                     android:text="@string/add_submit" />
             </TableLayout>
+
 
             <!-- View Table -->
             <TableLayout
                 android:id="@+id/tl_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
+                android:visibility="gone"
+                android:stretchColumns="1">
 
-                <TableRow android:padding="@dimen/table_margin">
+                <TableRow>
 
                     <TextView
                         android:id="@+id/tv_order_id_2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style_2"
                         android:text="@string/tv_order_id" />
 
                     <TextView
                         android:id="@+id/tv_order_id_3"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/list_margin"
+                        style="@style/add_order_text_style_3"
                         android:layout_weight="1" />
                 </TableRow>
 
-                <TableRow android:padding="@dimen/table_margin">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
+
+                <TableRow>
 
                     <TextView
                         android:id="@+id/tv_store_2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style_2"
                         android:text="@string/tv_store" />
 
                     <TextView
                         android:id="@+id/tv_store_3"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/list_margin"
+                        style="@style/add_order_text_style_3"
                         android:layout_weight="1" />
                 </TableRow>
 
-                <TableRow android:padding="@dimen/table_margin">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
+
+                <TableRow>
 
                     <TextView
                         android:id="@+id/tv_date_2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style_2"
                         android:text="@string/tv_date" />
 
                     <TextView
                         android:id="@+id/tv_date_3"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/list_margin"
+                        style="@style/add_order_text_style_3"
                         android:layout_weight="1" />
                 </TableRow>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
 
-                <TableRow android:padding="@dimen/table_margin">
+                <TableRow>
 
                     <TextView
                         android:id="@+id/tv_item_2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style_2"
                         android:text="@string/tv_item" />
 
                     <TextView
                         android:id="@+id/tv_item_3"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/list_margin"
+                        style="@style/add_order_text_style_3"
                         android:layout_weight="1" />
                 </TableRow>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
 
-                <TableRow android:padding="@dimen/table_margin">
+                <TableRow>
 
                     <TextView
                         android:id="@+id/tv_order_cost_2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style_2"
                         android:text="@string/tv_order_cost" />
 
                     <TextView
                         android:id="@+id/tv_order_cost_3"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/list_margin"
+                        style="@style/add_order_text_style_3"
                         android:layout_weight="1" />
                 </TableRow>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
 
-                <TableRow android:padding="@dimen/table_margin">
+                <TableRow>
 
                     <TextView
                         android:id="@+id/tv_cashback_websit_2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style_2"
                         android:text="@string/tv_cashback_websit" />
 
                     <TextView
                         android:id="@+id/tv_cashback_websit_3"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/list_margin"
+                        style="@style/add_order_text_style_3"
                         android:layout_weight="1" />
                 </TableRow>
 
-                <TableRow android:padding="@dimen/table_margin">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
+
+                <TableRow>
 
                     <TextView
                         android:id="@+id/tv_cashback_rate_2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style_2"
                         android:text="@string/tv_cashback_rate" />
 
                     <TextView
                         android:id="@+id/tv_cashback_rate_3"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/list_margin"
+                        style="@style/add_order_text_style_3"
                         android:layout_weight="1" />
                 </TableRow>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
 
-                <TableRow android:padding="@dimen/table_margin">
+                <TableRow>
 
                     <TextView
                         android:id="@+id/tv_cashback_amount_2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style_2"
                         android:text="@string/tv_cashback_amount" />
 
                     <TextView
                         android:id="@+id/tv_cashback_amount_3"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/list_margin"
+                        style="@style/add_order_text_style_3"
                         android:layout_weight="1" />
                 </TableRow>
 
-                <TableRow android:padding="@dimen/table_margin">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
+
+                <TableRow>
 
                     <TextView
                         android:id="@+id/tv_cashback_state_2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style_2"
                         android:text="@string/tv_cashback_state" />
 
                     <TextView
                         android:id="@+id/tv_cashback_state_3"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/list_margin"
+                        style="@style/add_order_text_style_3"
                         android:layout_weight="1" />
                 </TableRow>
 
-                <TableRow android:padding="@dimen/table_margin">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
+
+                <TableRow>
 
                     <TextView
                         android:id="@+id/tv_cat_2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/add_order_text_style_2"
                         android:text="@string/tv_cat" />
 
                     <TextView
                         android:id="@+id/tv_cat_3"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/list_margin"
+                        style="@style/add_order_text_style_3"
                         android:layout_weight="1" />
                 </TableRow>
             </TableLayout>
         </FrameLayout>
     </ScrollView>
-</RelativeLayout>
+</LinearLayout>

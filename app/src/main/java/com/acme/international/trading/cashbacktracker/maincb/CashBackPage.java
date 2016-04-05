@@ -1,4 +1,4 @@
-package com.acme.international.trading.cashbacktracker;
+package com.acme.international.trading.cashbacktracker.maincb;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,6 +11,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
+import com.acme.international.trading.cashbacktracker.addorder.AddNewOrder;
+import com.acme.international.trading.cashbacktracker.CashbackProfile;
+import com.acme.international.trading.cashbacktracker.CbManager;
+import com.acme.international.trading.cashbacktracker.CbUtils;
+import com.acme.international.trading.cashbacktracker.R;
+import com.acme.international.trading.cashbacktracker.keywords.KeywordsSettingsPage;
+
 import java.util.ArrayList;
 
 /**
@@ -20,7 +27,7 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
         ExpandableListView.OnChildClickListener {
     private ExpandableListView mListView;
     // private AAListViewAdapter mAdapter;
-    private AAExpandableListAdapter mExpandAdapter;
+    private CbExpandableListAdapter mExpandAdapter;
     private ArrayList<ArrayList<ArrayList<CashbackProfile>>> mExpandDataList;
     private ArrayList<ArrayList<CashbackProfile>> mChildList;
 
@@ -30,7 +37,7 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
         setContentView(R.layout.main_cash_back_list);
         mListView = (ExpandableListView) findViewById(R.id.listView1);
         setViewClickListener();
-        mExpandAdapter = new AAExpandableListAdapter(CbUtils.EXPAND_ADAPTER_ORDER);
+        mExpandAdapter = new CbExpandableListAdapter(CbUtils.EXPAND_ADAPTER_ORDER);
         mListView.setAdapter(mExpandAdapter);
         Button mAdd = (Button) findViewById(R.id.bt_add);
         mAdd.setOnClickListener(this);
@@ -60,7 +67,7 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
                 startActivity(new Intent(this, AddNewOrder.class));
                 break;
             case R.id.bt_company:
-                startActivity(new Intent(this, AAProductListPage.class));
+                startActivity(new Intent(this, KeywordsSettingsPage.class));
                 break;
             default:
                 break;
@@ -80,8 +87,8 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
          * if(mListHolder != null) { profile =
          * mListHolder.getList().get(position); }
          */
-        if (view.getTag() instanceof AAListViewHodler) {
-            AAListViewHodler holder = (AAListViewHodler) view.getTag();
+        if (view.getTag() instanceof CbListViewHodler) {
+            CbListViewHodler holder = (CbListViewHodler) view.getTag();
             profile = mChildList.get(holder.getGroupId()).get(holder.getChildId());
             showItemMenu(profile);
             return true;
@@ -96,6 +103,9 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
             public void onClick(DialogInterface dialog, int itemPos) {
                 switch (itemPos) {
                     case 0:
+                        Intent intent = new Intent(CashBackPage.this, AddNewOrder.class);
+                        intent.putExtra(AddNewOrder.INTENT_TYPE_EDIT, profile.getId());
+                        startActivity(intent);
                         break;
                     case 1:
                         CbManager.getManager().getDB().deleteAAProfile(getContentResolver(), profile);

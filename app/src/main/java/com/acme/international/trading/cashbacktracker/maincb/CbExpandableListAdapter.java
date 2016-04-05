@@ -1,5 +1,5 @@
 
-package com.acme.international.trading.cashbacktracker;
+package com.acme.international.trading.cashbacktracker.maincb;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -9,9 +9,13 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.acme.international.trading.cashbacktracker.CashbackProfile;
+import com.acme.international.trading.cashbacktracker.CbUtils;
+import com.acme.international.trading.cashbacktracker.R;
+
 import java.util.ArrayList;
 
-public class AAExpandableListAdapter extends BaseExpandableListAdapter {
+public class CbExpandableListAdapter extends BaseExpandableListAdapter {
 
     private String mStyle;
 
@@ -26,7 +30,7 @@ public class AAExpandableListAdapter extends BaseExpandableListAdapter {
 
     private static final int GROUP_PADDING = 10;
 
-    public AAExpandableListAdapter(String style) {
+    public CbExpandableListAdapter(String style) {
         mStyle = style;
     }
 
@@ -104,8 +108,13 @@ public class AAExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.cb_list_item_view, parent, false);
         }
-        AAListViewHodler holder = new AAListViewHodler(mStyle);
+        CbListViewHodler holder = new CbListViewHodler(mStyle, mContext);
         holder.setOrderListView(convertView);
+        if(childPosition == 0) {
+            holder.setVisble(true);
+        } else {
+            holder.setVisble(false);
+        }
         if (TextUtils.equals(mStyle, CbUtils.EXPAND_ADAPTER_ORDER)) {
             holder.setData(mChildList.get(groupPosition).get(childPosition));
         }

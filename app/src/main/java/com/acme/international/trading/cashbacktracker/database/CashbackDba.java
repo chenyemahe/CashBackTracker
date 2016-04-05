@@ -163,4 +163,15 @@ public class CashbackDba {
         }
         return count;
     }
+
+    public int updateAAProfile(ContentResolver cr, CashbackProfile profile) {
+        if (profile == null) {
+            return 0;
+        }
+        ContentValues contentValues = new ContentValues();
+        CbUtils.toContentValues(profile, contentValues);
+        return cr.update(AAProvider.ProfileColumns.CONTENT_URI, contentValues, ID_SELECTION, new String[] {
+                profile.getId()
+        });
+    }
 }

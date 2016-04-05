@@ -30,7 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.acme.international.trading.cashbacktracker.CashBackPage;
+import com.acme.international.trading.cashbacktracker.maincb.CashBackPage;
 import com.acme.international.trading.cashbacktracker.R;
 
 import java.util.ArrayList;

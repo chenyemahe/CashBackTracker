@@ -21,6 +21,7 @@
     <string name="orderlist">Cashback Order List</string>
     <string name="add_order">Add New Order</string>
     <string name="cashbak_company">Manage Cashback Company</string>
+    <string name="tv_state">Status</string>
 
     <!--String Add New Order -->
     <string name="tv_order_id">Order Number</string>
@@ -41,4 +42,12 @@
     <string name="hint_year">year</string>
     <string name="hint_symbol">/</string>
     <string name="title_add_view">Input your order Information</string>
+    <string name="title_add_view_2">Order Information</string>
+    <string name="ed_default">Default</string>
+
+    <!-- String Keywords Settings -->
+    <string name="tv_cashback_website"><b>Cashback Websites</b></string>
+    <string name="tv_key_store"><b>Merchandise</b></string>
+    <string name="tv_keywords_delete"><b>DELETE</b></string>
+    <string name="tv_keywords_add"><b>ADD</b></string>
 </resources>

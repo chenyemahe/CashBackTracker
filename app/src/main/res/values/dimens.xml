@@ -6,4 +6,6 @@
     <dimen name="table_margin">10dp</dimen>
     <dimen name="activity_vertical_margin_left">30dp</dimen>
     <dimen name="v_div">1dp</dimen>
+    <dimen name="tb_row_hight">55dp</dimen>
+    <dimen name="main_title_hight">80dp</dimen>
 </resources>

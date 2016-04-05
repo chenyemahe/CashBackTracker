@@ -29,16 +29,16 @@
         <activity android:name="com.acme.international.trading.MainPage">
         </activity>
 
-        <activity android:name=".CashBackPage">
+        <activity android:name=".maincb.CashBackPage">
         </activity>
 
-        <activity android:name=".AddNewOrder">
-        </activity>
-
-        <activity android:name=".AAProductListPage">
+        <activity android:name=".addorder.AddNewOrder">
         </activity>
 
         <activity android:name="com.acme.international.trading.giftcardtracker.GiftCardPage">
+        </activity>
+
+        <activity android:name=".keywords.KeywordsSettingsPage">
         </activity>
 
         <provider

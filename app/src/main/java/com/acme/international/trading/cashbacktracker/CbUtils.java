@@ -2,7 +2,11 @@
 package com.acme.international.trading.cashbacktracker;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.text.TextUtils;
+import android.util.Log;
 
 
 import com.acme.international.trading.cashbacktracker.database.AAProvider;
@@ -38,6 +42,10 @@ public class CbUtils {
     public static final String EXPAND_ADAPTER_FBA = "expand_adapter_fba";
 
     public static final String INTENT_EXTRA_ITEM_STYLE = "intent_extra_item_style";
+
+    public static final String CASHBACK_PREFS = "cashback_prefs";
+    public static final String CASHBACK_KEYWORDS_LIST_WEBSITE = "cashback_keywords_list_website";
+    public static final String CASHBACK_KEYWORDS_LIST_STORE = "cashback_keywords_list_store";
 
     public static void toContentValues(CashbackProfile profile, ContentValues values) {
         values.put(AAProvider.ProfileColumns.ORDER_ID, profile.getOrderId());
@@ -173,8 +181,7 @@ public class CbUtils {
 
     /**
      * Parse ArrayList to Set
-     * 
-     * @param ArrayList
+     *
      * @return Set
      */
     public static <T> Set<T> arrayListToSet(ArrayList<T> list) {
@@ -196,6 +203,54 @@ public class CbUtils {
     }
 
     public static String calCashbackAmount(String totalCost, String rate) {
+        if (TextUtils.isEmpty(totalCost) || TextUtils.isEmpty(rate)) {
+            return "0";
+        }
         return String.valueOf(Double.parseDouble(totalCost) * Double.parseDouble(rate));
+    }
+
+    public static String[] getCbStateArray(Context context) {
+        return context.getResources().getStringArray(R.array.list_of_status);
+    }
+
+    public static boolean saveCustomKeyword(Context context, String keywords, String type_key) {
+        SharedPreferences prefs = context.getSharedPreferences(CASHBACK_PREFS, 0);
+        String newList = getCustomKeywordList(context, type_key);
+        if (TextUtils.isEmpty(newList)) {
+            newList = keywords;
+        } else {
+            newList = newList + "," + keywords;
+        }
+        Log.d(context.getClass().toString(), "keyword update save checked keywords: " + keywords);
+        return prefs.edit().putString(type_key, newList).commit();
+    }
+
+    public static String getCustomKeywordList(Context context, String type_key) {
+        SharedPreferences prefs = context.getSharedPreferences(CASHBACK_PREFS, 0);
+        return prefs.getString(type_key, "");
+    }
+
+    public static boolean removeCustomKeyword(Context context,String s, String type_key) {
+        SharedPreferences prefs = context.getSharedPreferences(CASHBACK_PREFS, 0);
+        String oldList = getCustomKeywordList(context, type_key);
+        String newList = "";
+        if (TextUtils.isEmpty(oldList)) {
+            return true;
+        } else if (TextUtils.equals(oldList, s)) {
+            newList = "";
+        } else {
+            String[] temp = oldList.split(",");
+            for(int i = 0; i < temp.length; i++ ) {
+                if (!TextUtils.equals(temp[i], s)) {
+                    if(TextUtils.isEmpty(newList)) {
+                        newList = temp[i];
+                    } else {
+                        newList += "," + temp[i];
+                    }
+                }
+            }
+        }
+        Log.d(context.getClass().toString(), "keyword remove save checked keywords: " +  s);
+        return prefs.edit().putString(type_key, newList).commit();
     }
 }

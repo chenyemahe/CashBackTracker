@@ -2,76 +2,95 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/activity_vertical_margin">
+    android:stretchColumns="3">
 
     <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/tb_row_hight"
+        android:id="@+id/tr_1"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_date"
+            style="@style/main_order_text_style"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/tv_date" />
+            android:text="@string/tv_date"
+            android:layout_column="0"/>
 
         <TextView
             android:id="@+id/tv_store"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/common_action_bar_splitter"
-            android:text="@string/tv_store" />
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:text="@string/tv_store"
+            android:layout_column="1"/>
 
         <TextView
             android:id="@+id/tv_cashback_company"
+            style="@style/main_order_text_style"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/tv_cashback_websit" />
+            android:text="@string/tv_cashback_websit"
+            android:layout_column="2" />
 
         <TextView
             android:id="@+id/tv_cashback_state"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/common_action_bar_splitter"
-            android:text="@string/tv_cashback_state" />
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:text="@string/tv_state"
+            android:layout_column="3" />
 
     </TableRow>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divid_alarm_1"
+        android:id="@+id/tr_2"
+        android:visibility="gone" />
+
     <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/tb_row_hight">
 
         <TextView
             android:id="@+id/tv_date_2"
+            style="@style/main_order_text_style"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/tv_date" />
+            android:layout_column="0"  />
 
         <TextView
             android:id="@+id/tv_store_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/common_action_bar_splitter"
-            android:text="@string/tv_store" />
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:layout_column="1"  />
 
         <TextView
             android:id="@+id/tv_cashback_company_2"
+            style="@style/main_order_text_style"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/tv_cashback_websit" />
+            android:layout_column="2"  />
 
         <TextView
             android:id="@+id/tv_cashback_state_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/common_action_bar_splitter"
-            android:text="@string/tv_cashback_state" />
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:layout_column="3" />
     </TableRow>
 </TableLayout>
