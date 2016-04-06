@@ -49,11 +49,11 @@ public class CbListViewHodler {
         String state = profile.getCashbackState();
         mOLCbState.setText(state);
         if (TextUtils.equals(state, CbUtils.getCbStateArray(mContext)[0])) {
-            mOLCbState.setTextColor(mContext.getResources().getColor(android.R.color.holo_red_light));
+            mOLCbState.setTextColor(mContext.getResources().getColor(android.R.color.black));
         } else if (TextUtils.equals(state, CbUtils.getCbStateArray(mContext)[2])){
             mOLCbState.setTextColor(mContext.getResources().getColor(android.R.color.holo_green_light));
         } else {
-            mOLCbState.setTextColor(mContext.getResources().getColor(android.R.color.black));
+            mOLCbState.setTextColor(mContext.getResources().getColor(android.R.color.holo_red_light));
         }
     }
 

@@ -51,7 +51,7 @@ public class CbUtils {
         values.put(AAProvider.ProfileColumns.ORDER_ID, profile.getOrderId());
         values.put(AAProvider.ProfileColumns.ORDER_DATE, profile.getDate());
         values.put(AAProvider.ProfileColumns.ORDER_STORE, profile.getOrderStore());
-        values.put(AAProvider.ProfileColumns.ORDER_DETAIL, profile.getOrderStore());
+        values.put(AAProvider.ProfileColumns.ORDER_DETAIL, profile.getOrderDetail());
         values.put(AAProvider.ProfileColumns.ORDER_CASHBACK_COMPANY, profile.getCashbackCompany());
         values.put(AAProvider.ProfileColumns.ORDER_CASHBACK_STATE, profile.getCashbackState());
         values.put(AAProvider.ProfileColumns.ORDER_CASHBACK_PERCENT, profile.getCashbackPercent());
@@ -199,14 +199,14 @@ public class CbUtils {
         for (CashbackProfile profile : proList) {
             cost += Double.parseDouble(profile.getCost());
         }
-        return String.valueOf(cost);
+        return String.valueOf(String.format("%.02f", cost));
     }
 
     public static String calCashbackAmount(String totalCost, String rate) {
-        if (TextUtils.isEmpty(totalCost) || TextUtils.isEmpty(rate)) {
+        if (TextUtils.isEmpty(totalCost) || TextUtils.isEmpty(rate) || TextUtils.equals(".", totalCost) || TextUtils.equals(".", rate)) {
             return "0";
         }
-        return String.valueOf(Double.parseDouble(totalCost) * Double.parseDouble(rate));
+        return String.valueOf(String.format("%.02f", Double.parseDouble(totalCost) * Double.parseDouble(rate) / 100));
     }
 
     public static String[] getCbStateArray(Context context) {
@@ -219,9 +219,11 @@ public class CbUtils {
         if (TextUtils.isEmpty(newList)) {
             newList = keywords;
         } else {
-            newList = newList + "," + keywords;
+            if(!newList.contains(keywords)) {
+                newList = newList + "," + keywords;
+                Log.d(context.getClass().toString(), "keyword update save checked keywords: " + keywords);
+            }
         }
-        Log.d(context.getClass().toString(), "keyword update save checked keywords: " + keywords);
         return prefs.edit().putString(type_key, newList).commit();
     }
 
@@ -252,5 +254,22 @@ public class CbUtils {
         }
         Log.d(context.getClass().toString(), "keyword remove save checked keywords: " +  s);
         return prefs.edit().putString(type_key, newList).commit();
+    }
+
+    public static boolean isLess100(String value) {
+        if (TextUtils.isEmpty(value) || TextUtils.equals(".", value)) {
+            return false;
+        }
+        Double intValue = Double.parseDouble(value);
+        if (intValue < 0)
+            return false;
+        if (intValue <= 100) {
+            return true;
+        }
+        return false;
+    }
+
+    public static String removeMark(String s) {
+        return s.replace("%", "");
     }
 }

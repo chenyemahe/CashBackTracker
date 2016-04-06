@@ -27,7 +27,7 @@
     <string name="tv_order_id">Order Number</string>
     <string name="tv_store">Store Name</string>
     <string name="tv_date">Order Date</string>
-    <string name="tv_item">Order Info</string>
+    <string name="tv_item">Products Info</string>
     <string name="tv_order_cost">Total Cost</string>
     <string name="tv_cashback_websit">Cashback From</string>
     <string name="tv_cashback_rate">Cashback Percentage</string>
@@ -44,6 +44,7 @@
     <string name="title_add_view">Input your order Information</string>
     <string name="title_add_view_2">Order Information</string>
     <string name="ed_default">Default</string>
+    <string name="values_not_valid">The value is not valid! Please input 0 ~ 100!</string>
 
     <!-- String Keywords Settings -->
     <string name="tv_cashback_website"><b>Cashback Websites</b></string>

@@ -41,13 +41,14 @@
 
                     <EditText
                         android:id="@+id/ed_order_id"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         style="@style/add_order_edit_text_style"
                         android:imeOptions="actionNext"
                         android:inputType="textPostalAddress"
+                        android:layout_weight="1"
                         android:scrollHorizontally="true" />
 
-                    <requestFocus />
+                    <requestFocus/>
                 </TableRow>
 
                 <TextView

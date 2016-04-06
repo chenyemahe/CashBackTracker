@@ -48,7 +48,9 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
     @Override
     protected void onResume() {
         super.onResume();
+        //set view data
         setExpViewData();
+        mListView.expandGroup(0);
     }
 
     @Override

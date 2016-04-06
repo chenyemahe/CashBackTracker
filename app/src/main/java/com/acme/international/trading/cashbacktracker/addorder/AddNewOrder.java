@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -89,7 +90,6 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
         mDate = (EditText) findViewById(R.id.ed_date_mm);
         mDate.setOnClickListener(this);
         mDate.setOnFocusChangeListener(this);
-        ;
 
         mOrderStore = (AutoCompleteTextView) findViewById(R.id.act_store);
         ArrayAdapter<String> sAdapter = new ArrayAdapter<>(this,
@@ -126,8 +126,20 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!mOrderCost.getText().toString().isEmpty()) {
-                    mCashbackAmount.setText(CbUtils.calCashbackAmount(mOrderCost.getText().toString(), mCashbackPercent.getText().toString()));
+                if (!mCashbackPercent.getText().toString().isEmpty()) {
+                    String text = mCashbackPercent.getText().toString();
+                    String percent = CbUtils.removeMark(text);
+                    if (!CbUtils.isLess100(percent)) {
+                        mCashbackPercent.setText("");
+                        Toast.makeText(AddNewOrder.this.getApplicationContext(), getResources().getString(R.string.values_not_valid), Toast.LENGTH_LONG).show();
+                    }
+                    if (!text.contains("%")) {
+                        String temp = text + "%";
+                        mCashbackPercent.setText(temp);
+                        mCashbackPercent.setSelection(temp.length() - 1);
+                    }
+                    if (!mOrderCost.getText().toString().isEmpty())
+                        mCashbackAmount.setText(CbUtils.calCashbackAmount(mOrderCost.getText().toString(), percent));
                 }
             }
         });
@@ -149,8 +161,8 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
             @Override
             public void afterTextChanged(Editable s) {
 
-                if (!mCashbackPercent.getText().toString().isEmpty()) {
-                    mCashbackAmount.setText(CbUtils.calCashbackAmount(mOrderCost.getText().toString(), mCashbackPercent.getText().toString()));
+                if (!CbUtils.removeMark(mCashbackPercent.getText().toString()).isEmpty()) {
+                    mCashbackAmount.setText(CbUtils.calCashbackAmount(mOrderCost.getText().toString(), CbUtils.removeMark(mCashbackPercent.getText().toString())));
                 }
             }
         });
@@ -162,7 +174,7 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
         mSubmit.setOnClickListener(this);
 
         Calendar newCalendar = Calendar.getInstance();
-        dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        dateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
         mDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -189,11 +201,11 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
         TextView title = (TextView) findViewById(R.id.tv_title);
         title.setText(getResources().getString(R.string.title_add_view_2));
 
-        TextView orderId = (TextView) findViewById(R.id.tv_order_id_3);
+        final TextView orderId = (TextView) findViewById(R.id.tv_order_id_3);
         TextView date = (TextView) findViewById(R.id.tv_date_3);
-        TextView orderStore = (TextView) findViewById(R.id.tv_store_3);
-        TextView orderDetail = (TextView) findViewById(R.id.tv_item_3);
-        TextView cashbackCompany = (TextView) findViewById(R.id.tv_cashback_websit_3);
+        final TextView orderStore = (TextView) findViewById(R.id.tv_store_3);
+        final TextView orderDetail = (TextView) findViewById(R.id.tv_item_3);
+        final TextView cashbackCompany = (TextView) findViewById(R.id.tv_cashback_websit_3);
         TextView cashbackState = (TextView) findViewById(R.id.tv_cashback_state_3);
         TextView cashbackPercent = (TextView) findViewById(R.id.tv_cashback_rate_3);
         TextView cashbackAmount = (TextView) findViewById(R.id.tv_cashback_amount_3);
@@ -210,6 +222,38 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
         cashbackAmount.setText(profile.getCashbackAmount());
         orderCost.setText(profile.getCost());
         cat.setText(profile.getCat());
+
+        orderId.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                orderId.requestFocus();
+                return false;
+            }
+        });
+
+        orderStore.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                orderStore.requestFocus();
+                return false;
+            }
+        });
+
+        orderDetail.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                orderDetail.requestFocus();
+                return false;
+            }
+        });
+
+        cashbackCompany.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                cashbackCompany.requestFocus();
+                return false;
+            }
+        });
     }
 
     @Override
@@ -233,7 +277,7 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
         String orderDetail = mOrderDetail.getText().toString();
         String orderCbCompany = mCashbackCompany.getText().toString();
         String orderCbState = mCashbackState.getSelectedItem().toString();
-        String orderCbPercent = mCashbackPercent.getText().toString();
+        String orderCbPercent = CbUtils.removeMark(mCashbackPercent.getText().toString());
         String orderCbAmount = mCashbackAmount.getText().toString();
         String orderCat = mCat.getText().toString();
         String orderCost = mOrderCost.getText().toString();
@@ -246,12 +290,12 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
                     getResources().getString(R.string.no_item_info),
                     Toast.LENGTH_LONG).show();
         } else {
-            if (CbManager.getManager().getDB().getAAProfileById(getContentResolver(), orderId) != null) {
+            /*if (CbManager.getManager().getDB().getAAProfileById(getContentResolver(), orderId) != null) {
                 Toast.makeText(this,
                         getResources().getString(R.string.existed_order),
                         Toast.LENGTH_LONG).show();
                 return;
-            }
+            }*/
             CashbackProfile profile;
             if (TextUtils.isEmpty(profileEditId)) {
                 profile = new CashbackProfile();
@@ -274,6 +318,8 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
             } else {
                 CbManager.getManager().getDB().updateAAProfile(getContentResolver(), profile);
             }
+            CbUtils.saveCustomKeyword(this, orderCbCompany, CbUtils.CASHBACK_KEYWORDS_LIST_WEBSITE);
+            CbUtils.saveCustomKeyword(this, orderStore, CbUtils.CASHBACK_KEYWORDS_LIST_STORE);
             this.finish();
         }
     }
