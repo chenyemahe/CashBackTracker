@@ -12,6 +12,7 @@ import android.util.Log;
 import com.acme.international.trading.cashbacktracker.database.AAProvider;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -43,9 +44,12 @@ public class CbUtils {
 
     public static final String INTENT_EXTRA_ITEM_STYLE = "intent_extra_item_style";
 
+    public static final int TIME = 30;
+
     public static final String CASHBACK_PREFS = "cashback_prefs";
     public static final String CASHBACK_KEYWORDS_LIST_WEBSITE = "cashback_keywords_list_website";
     public static final String CASHBACK_KEYWORDS_LIST_STORE = "cashback_keywords_list_store";
+    public static final String CASHBACK_KEYWORDS_LIST_CAT = "cashback_keywords_list_cat";
 
     public static void toContentValues(CashbackProfile profile, ContentValues values) {
         values.put(AAProvider.ProfileColumns.ORDER_ID, profile.getOrderId());
@@ -271,5 +275,24 @@ public class CbUtils {
 
     public static String removeMark(String s) {
         return s.replace("%", "");
+    }
+
+    public static String totalCashBack(Context context) {
+        String total = null;
+        Double total_db = 0.0;
+        ArrayList<CashbackProfile> list = (ArrayList<CashbackProfile>) CbManager.getManager().getDB().getAllProfile(context.getContentResolver());
+        for(CashbackProfile p : list) {
+            total_db += Double.parseDouble(p.getCashbackAmount());
+        }
+        total = String.valueOf(total_db);
+        return total;
+    }
+
+    public static boolean isOver30Days(Date date) {
+        long millisecond = date.getTime();
+        if (System.currentTimeMillis() - millisecond > TIME * 24 * 60 * 60000) {
+            return true;
+        }
+        return false;
     }
 }

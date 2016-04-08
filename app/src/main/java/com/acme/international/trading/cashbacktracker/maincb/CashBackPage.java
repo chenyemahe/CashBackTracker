@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.acme.international.trading.cashbacktracker.addorder.AddNewOrder;
 import com.acme.international.trading.cashbacktracker.CashbackProfile;
@@ -31,6 +32,8 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
     private ArrayList<ArrayList<ArrayList<CashbackProfile>>> mExpandDataList;
     private ArrayList<ArrayList<CashbackProfile>> mChildList;
 
+    private TextView mTotal;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,8 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
         mAdd.setOnClickListener(this);
         Button mCbCompay = (Button) findViewById(R.id.bt_company);
         mCbCompay.setOnClickListener(this);
+
+        mTotal = (TextView) findViewById(R.id.tv_title_2);
     }
 
     @Override
@@ -51,6 +56,8 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
         //set view data
         setExpViewData();
         mListView.expandGroup(0);
+        String temp = "$ " + CbUtils.totalCashBack(this);
+        mTotal.setText(temp);
     }
 
     @Override

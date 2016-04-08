@@ -42,7 +42,7 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
     private EditText mCashbackPercent;
     private EditText mCashbackAmount;
     private EditText mOrderCost;
-    private EditText mCat;
+    private AutoCompleteTextView mCat;
     private Button mSubmit;
 
     private TableLayout add_layout;
@@ -53,6 +53,7 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
 
     private final static String TYPE_STORE = "type_store";
     private final static String TYPE_CASHBACK = "type_cashback";
+    private final static String TYPE_CAT = "type_cat";
 
     public final static String INTENT_TYPE_EDIT = "intent_type_edit";
 
@@ -167,7 +168,10 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
             }
         });
 
-        mCat = (EditText) findViewById(R.id.ed_cat);
+        mCat = (AutoCompleteTextView) findViewById(R.id.ed_cat);
+        ArrayAdapter<String> sAdapter3 = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, getStringArray(TYPE_CAT));
+        mCat.setAdapter(sAdapter3);
         mCat.setOnClickListener(this);
 
         mSubmit = (Button) findViewById(R.id.bt_submit);
@@ -320,20 +324,32 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
             }
             CbUtils.saveCustomKeyword(this, orderCbCompany, CbUtils.CASHBACK_KEYWORDS_LIST_WEBSITE);
             CbUtils.saveCustomKeyword(this, orderStore, CbUtils.CASHBACK_KEYWORDS_LIST_STORE);
+            CbUtils.saveCustomKeyword(this, orderCat, CbUtils.CASHBACK_KEYWORDS_LIST_CAT);
             this.finish();
         }
     }
 
     private String[] getStringArray(String type) {
+        String array[] = null;
         String[] stringArrayFromRes = null;
+        String[] extraList = null;
         if (TextUtils.equals(type, TYPE_STORE)) {
-            stringArrayFromRes = getResources().getStringArray(
-                    R.array.list_of_store);
+            stringArrayFromRes = getResources().getStringArray(R.array.list_of_store);
+            extraList = CbUtils.getCustomKeywordList(this, CbUtils.CASHBACK_KEYWORDS_LIST_STORE).split(",");
         } else if (TextUtils.equals(type, TYPE_CASHBACK)) {
-            stringArrayFromRes = getResources().getStringArray(
-                    R.array.list_of_cashback_website);
+            stringArrayFromRes = getResources().getStringArray(R.array.list_of_cashback_website);
+            extraList = CbUtils.getCustomKeywordList(this, CbUtils.CASHBACK_KEYWORDS_LIST_WEBSITE).split(",");
+        } else if (TextUtils.equals(type, TYPE_CAT)) {
+            extraList = CbUtils.getCustomKeywordList(this, CbUtils.CASHBACK_KEYWORDS_LIST_CAT).split(",");
         }
-        return stringArrayFromRes;
+        if (stringArrayFromRes != null) {
+            array = new String[stringArrayFromRes.length + extraList.length];
+            System.arraycopy(stringArrayFromRes, 0, array, 0, stringArrayFromRes.length);
+            System.arraycopy(extraList, 0, array, stringArrayFromRes.length, extraList.length);
+        } else {
+            array = extraList;
+        }
+        return array;
     }
 
     @Override

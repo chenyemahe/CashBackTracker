@@ -155,7 +155,7 @@
                         style="@style/add_order_text_style"
                         android:text="@string/tv_cat" />
 
-                    <EditText
+                    <AutoCompleteTextView
                         android:id="@+id/ed_cat"
                         android:layout_width="0dp"
                         style="@style/add_order_edit_text_style"
@@ -163,7 +163,7 @@
                         android:imeOptions="actionNext"
                         android:inputType="textPostalAddress"
                         android:scrollHorizontally="true"
-                        android:text="@string/ed_default"/>
+                        android:text="@string/ed_default" />
                 </TableRow>
 
                 <TextView

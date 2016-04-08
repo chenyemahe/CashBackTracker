@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">CashBackTracker</string>
+    <string name="app_full_name">CashBack Tracker</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -22,6 +23,7 @@
     <string name="add_order">Add New Order</string>
     <string name="cashbak_company">Manage Cashback Company</string>
     <string name="tv_state">Status</string>
+    <string name="tv_main_total_save">Total Saving</string>
 
     <!--String Add New Order -->
     <string name="tv_order_id">Order Number</string>
@@ -51,4 +53,10 @@
     <string name="tv_key_store"><b>Merchandise</b></string>
     <string name="tv_keywords_delete"><b>DELETE</b></string>
     <string name="tv_keywords_add"><b>ADD</b></string>
+
+    <!-- Notification -->
+    <string name="notification_body_1">There is</string>
+    <string name="notification_body_2">order's cashback does not get approved over 30 days!\nClick for checking!</string>
+    <string name="notification_body_3">There are</string>
+    <string name="notification_body_4">orders' cashback do not get approved over 30 days!\nClick for checking!</string>
 </resources>
