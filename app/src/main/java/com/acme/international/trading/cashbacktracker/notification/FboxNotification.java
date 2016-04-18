@@ -12,13 +12,13 @@ import com.acme.international.trading.cashbacktracker.R;
  */
 public class FboxNotification {
 
-    public void showNotification(Context mContext, int size) {
+    public static void showNotification(Context mContext, int size) {
         Notification notif = buildNotification(mContext, size);
         NotificationManager notifMgr = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         notifMgr.notify(1, notif);
     }
 
-    private Notification buildNotification(Context mContext, int size) {
+    private static Notification buildNotification(Context mContext, int size) {
         String text;
         if(size == 1)
             text = mContext.getResources().getString(R.string.notification_body_1) + " " + String.valueOf(size) + " " + mContext.getResources().getString(R.string.notification_body_2);

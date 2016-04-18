@@ -24,6 +24,8 @@ public class CashbackDba {
     // Query string constants to work with database.
     private static String PROFILE_SELECTION_BY_DATE = AAProvider.ProfileColumns.ORDER_DATE + " LIKE ? ";
 
+    public static String PROFILE_SELECTION_BY_CASHBACK_STATE = AAProvider.ProfileColumns.ORDER_CASHBACK_STATE + " LIKE ? ";
+
     private static String PROFILE_SELECTION_BY_ID = AAProvider.ProfileColumns._ID + " LIKE ? ";
 
     public static String ID_SELECTION = BaseColumns._ID + "=?";
@@ -109,19 +111,19 @@ public class CashbackDba {
         return profile;
     }
 
-    public List<CashbackProfile> getAAProfilebyDate(ContentResolver cr, String Date) {
+    public List<CashbackProfile> getCbProfileBySelection(ContentResolver cr, String selection, String key) {
         List<CashbackProfile> profileList = null;
-        Log.d(TAG, "{getAAProfile} the Date is : " + Date);
-        if (Date == null)
+        Log.d(TAG, "{getAAProfile} the KEY is : " + key);
+        if (key == null)
             return null;
 
         CashbackProfile profile = null;
         Cursor cursor = null;
 
         try {
-            cursor = cr.query(AAProvider.ProfileColumns.CONTENT_URI, null, PROFILE_SELECTION_BY_DATE,
+            cursor = cr.query(AAProvider.ProfileColumns.CONTENT_URI, null, selection,
                     new String[]{
-                            Date
+                            key
                     }, null);
             if (cursor != null && cursor.moveToFirst()) {
                 profileList = new ArrayList<CashbackProfile>();
@@ -133,7 +135,7 @@ public class CashbackDba {
 
             }
         } catch (SQLException e) {
-            Log.d(TAG, "Error in retrieve Date: " + Date, e);
+            Log.d(TAG, "Error in retrieve Key: " + key, e);
         } finally {
             if (cursor != null) {
                 cursor.close();

@@ -13,6 +13,7 @@ public class CashbackProfile {
     private String mCashbackAmount;
     private String mCat;
     private String mOrderCost;
+    private String mAvailableCost;
 
     public CashbackProfile() {
         mDate = null;
@@ -64,6 +65,10 @@ public class CashbackProfile {
         mOrderCost = cost;
     }
 
+    public void setAvailableCost(String cost) {
+        mAvailableCost = cost;
+    }
+
     public String getId() {
         return mId;
     }
@@ -106,5 +111,9 @@ public class CashbackProfile {
 
     public String getCost() {
         return mOrderCost;
+    }
+
+    public String getAvailableCost () {
+        return mAvailableCost;
     }
 }

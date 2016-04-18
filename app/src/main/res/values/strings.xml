@@ -24,13 +24,14 @@
     <string name="cashbak_company">Manage Cashback Company</string>
     <string name="tv_state">Status</string>
     <string name="tv_main_total_save">Total Saving</string>
+    <string name="dialog_body">Do you want to delete this order? If yes, press OK button.</string>
 
     <!--String Add New Order -->
     <string name="tv_order_id">Order Number</string>
     <string name="tv_store">Store Name</string>
     <string name="tv_date">Order Date</string>
     <string name="tv_item">Products Info</string>
-    <string name="tv_order_cost">Total Cost</string>
+    <string name="tv_order_cost">Total Cost (plus tax)</string>
     <string name="tv_cashback_websit">Cashback From</string>
     <string name="tv_cashback_rate">Cashback Percentage</string>
     <string name="tv_cashback_amount">Total Cashback</string>
@@ -38,6 +39,7 @@
     <string name="tv_cat">Cashback Category</string>
     <string name="add_submit">Submit</string>
     <string name="no_item_info">Please input all missing blank!</string>
+    <string name="toast_input_date_error">Please input date as mm/dd/year format.</string>
     <string name="existed_order">The order number existed! Please use different order number!</string>
     <string name="hint_mm">mm/dd/year</string>
     <string name="hint_dd">dd</string>
@@ -47,6 +49,7 @@
     <string name="title_add_view_2">Order Information</string>
     <string name="ed_default">Default</string>
     <string name="values_not_valid">The value is not valid! Please input 0 ~ 100!</string>
+    <string name="tv_part_cost">Available for CB</string>
 
     <!-- String Keywords Settings -->
     <string name="tv_cashback_website"><b>Cashback Websites</b></string>
@@ -56,7 +59,7 @@
 
     <!-- Notification -->
     <string name="notification_body_1">There is</string>
-    <string name="notification_body_2">order's cashback does not get approved over 30 days!\nClick for checking!</string>
+    <string name="notification_body_2">order\'s cashback does not get approved over 30 days!\nClick for checking!</string>
     <string name="notification_body_3">There are</string>
-    <string name="notification_body_4">orders' cashback do not get approved over 30 days!\nClick for checking!</string>
+    <string name="notification_body_4">orders\' cashback do not get approved over 30 days!\nClick for checking!</string>
 </resources>

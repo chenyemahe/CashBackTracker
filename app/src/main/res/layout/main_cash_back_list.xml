@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.acme.amazon.orderrecord.AAMainOrderListPage"
-    android:background="@color/button_color">
+    tools:context="com.acme.amazon.orderrecord.AAMainOrderListPage">
 
     <LinearLayout
         android:id="@+id/ll_top"
@@ -12,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,12 +72,15 @@
             android:textColor="@android:color/white" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+
+    <Spinner
+        android:layout_width="@dimen/main_title_spin_width"
+        android:layout_height="@dimen/main_title_spin_hight"
+        android:id="@+id/spinner"
         android:layout_below="@+id/button_ly"
-        android:background="#6F737F" />
+        android:gravity="end"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
     <ExpandableListView
         android:id="@+id/listView1"
@@ -85,8 +88,9 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/button_ly"
         android:layout_alignStart="@+id/button_ly"
-        android:layout_below="@+id/button_ly"
-        android:layout_margin="@dimen/list_margin" >
+        android:background="@color/color_background"
+        android:groupIndicator="@drawable/expend_indicator"
+        android:layout_below="@+id/spinner" >
     </ExpandableListView>
 
 </RelativeLayout>

@@ -2,14 +2,22 @@ package com.acme.international.trading.cashbacktracker.maincb;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.acme.international.trading.cashbacktracker.addorder.AddNewOrder;
@@ -17,6 +25,8 @@ import com.acme.international.trading.cashbacktracker.CashbackProfile;
 import com.acme.international.trading.cashbacktracker.CbManager;
 import com.acme.international.trading.cashbacktracker.CbUtils;
 import com.acme.international.trading.cashbacktracker.R;
+import com.acme.international.trading.cashbacktracker.database.AAProvider;
+import com.acme.international.trading.cashbacktracker.database.CashbackDba;
 import com.acme.international.trading.cashbacktracker.keywords.KeywordsSettingsPage;
 
 import java.util.ArrayList;
@@ -25,7 +35,7 @@ import java.util.ArrayList;
  * Created by ye1.chen on 3/3/16.
  */
 public class CashBackPage extends Activity implements View.OnClickListener, AdapterView.OnItemLongClickListener,
-        ExpandableListView.OnChildClickListener {
+        ExpandableListView.OnChildClickListener, AdapterView.OnItemSelectedListener {
     private ExpandableListView mListView;
     // private AAListViewAdapter mAdapter;
     private CbExpandableListAdapter mExpandAdapter;
@@ -33,6 +43,22 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
     private ArrayList<ArrayList<CashbackProfile>> mChildList;
 
     private TextView mTotal;
+    private boolean fistLauch;
+    private Spinner mListPinner;
+
+    private ContentObserver mDbObserver = new ContentObserver(new Handler()) {
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            setCheckedData(mListPinner.getSelectedItemPosition());
+            mExpandAdapter.notifiListUpdate();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            onChange(selfChange, null);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +72,13 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
         mAdd.setOnClickListener(this);
         Button mCbCompay = (Button) findViewById(R.id.bt_company);
         mCbCompay.setOnClickListener(this);
+        mListPinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.list_of_view_selector, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mListPinner.setAdapter(adapter);
+        mListPinner.setOnItemSelectedListener(this);
+        fistLauch = true;
 
         mTotal = (TextView) findViewById(R.id.tv_title_2);
     }
@@ -54,10 +87,21 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
     protected void onResume() {
         super.onResume();
         //set view data
-        setExpViewData();
-        mListView.expandGroup(0);
+        setExpViewData(null, null);
+        if(fistLauch) {
+            mListView.expandGroup(0);
+            fistLauch = false;
+        }
         String temp = "$ " + CbUtils.totalCashBack(this);
         mTotal.setText(temp);
+        getContentResolver().registerContentObserver(AAProvider.ProfileColumns.CONTENT_URI, false,
+                mDbObserver);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getContentResolver().unregisterContentObserver(mDbObserver);
     }
 
     @Override
@@ -112,14 +156,19 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
             public void onClick(DialogInterface dialog, int itemPos) {
                 switch (itemPos) {
                     case 0:
+                        Intent intent_0 = new Intent(CashBackPage.this, AddNewOrder.class);
+                        intent_0.putExtra(AddNewOrder.INTENT_TYPE_COPY, profile.getId());
+                        startActivity(intent_0);
+                        break;
+                    case 1:
                         Intent intent = new Intent(CashBackPage.this, AddNewOrder.class);
                         intent.putExtra(AddNewOrder.INTENT_TYPE_EDIT, profile.getId());
                         startActivity(intent);
                         break;
-                    case 1:
-                        CbManager.getManager().getDB().deleteAAProfile(getContentResolver(), profile);
-                        setExpViewData();
-                        mExpandAdapter.notifiListUpdate();
+                    case 2:
+                        CbDialogFragment dialogFragment = new CbDialogFragment();
+                        dialogFragment.setProfile(profile);
+                        dialogFragment.show(getFragmentManager(), "missiles");
                         break;
                 }
                 dialog.dismiss();
@@ -153,8 +202,15 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
         }
     }
 
-    private void setExpViewData() {
-        mExpandDataList = CbUtils.sortProfileByDate(CbManager.getManager().getDB().getAllProfile(getContentResolver()));
+    private void setExpViewData(String type, String key) {
+        ArrayList<CashbackProfile> profilesList = null;
+        if (type == null) {
+            profilesList = (ArrayList<CashbackProfile>) CbManager.getManager().getDB().getAllProfile(getContentResolver());
+        } else if (TextUtils.equals(type, CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE)) {
+            profilesList = (ArrayList<CashbackProfile>) CbManager.getManager().getDB().getCbProfileBySelection
+                    (getContentResolver(),CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE, key);
+        }
+        mExpandDataList = CbUtils.sortProfileByDate(profilesList);
         if (mExpandDataList ==  null)
             return;
         mChildList = new ArrayList<ArrayList<CashbackProfile>>();
@@ -162,4 +218,37 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
         mExpandAdapter.setListData(mExpandDataList, mChildList, this);
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        setCheckedData(position);
+    }
+
+    private void setCheckedData(int position) {
+        switch (position) {
+            case 0:
+                //main view
+                setExpViewData(null, null);
+                mExpandAdapter.notifiListUpdate();
+                break;
+            //Pending list
+            case 1:
+                setExpViewData(CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE, getResources().getStringArray(R.array.list_of_status)[1]);
+                mExpandAdapter.notifiListUpdate();
+                break;
+            //Approved List
+            case 2:
+                setExpViewData(CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE, getResources().getStringArray(R.array.list_of_status)[2]);
+                mExpandAdapter.notifiListUpdate();
+                break;
+            case 3:
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

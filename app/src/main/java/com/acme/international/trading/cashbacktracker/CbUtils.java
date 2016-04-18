@@ -7,11 +7,13 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ListView;
 
 
 import com.acme.international.trading.cashbacktracker.database.AAProvider;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -62,6 +64,7 @@ public class CbUtils {
         values.put(AAProvider.ProfileColumns.ORDER_CASHBACK_AMOUNT, profile.getCashbackAmount());
         values.put(AAProvider.ProfileColumns.ORDER_CATEGORY, profile.getCat());
         values.put(AAProvider.ProfileColumns.ORDER_TOTAL_COST, profile.getCost());
+        values.put(AAProvider.ProfileColumns.ORDER_PRICE_CB_AVAILABLE, profile.getAvailableCost());
     }
 
     public static void fromCursor(Cursor cursor, CashbackProfile profile) {
@@ -76,6 +79,7 @@ public class CbUtils {
         int idxCashbackAmount = cursor.getColumnIndexOrThrow(AAProvider.ProfileColumns.ORDER_CASHBACK_AMOUNT);
         int idxCategory = cursor.getColumnIndexOrThrow(AAProvider.ProfileColumns.ORDER_CATEGORY);
         int idxCost = cursor.getColumnIndexOrThrow(AAProvider.ProfileColumns.ORDER_TOTAL_COST);
+        int idxPartCost = cursor.getColumnIndexOrThrow(AAProvider.ProfileColumns.ORDER_PRICE_CB_AVAILABLE);
 
         profile.setId(cursor.getString(idxId));
         profile.setOrderId(cursor.getString(idxOrderId));
@@ -88,6 +92,7 @@ public class CbUtils {
         profile.setCashbackAmount(cursor.getString(idxCashbackAmount));
         profile.setCat(cursor.getString(idxCategory));
         profile.setOrderCost(cursor.getString(idxCost));
+        profile.setAvailableCost(cursor.getString(idxPartCost));
     }
 
     /**
@@ -138,7 +143,7 @@ public class CbUtils {
                 indexYear = findStElemInArray(yearList, year);
             }
 
-            ArrayList<CashbackProfile> list = sortListMap.get(indexYear).get(indexMonth);
+            ArrayList<CashbackProfile> list = sortListMap.get(indexYear).get(indexMonth-1);
             for (int i = 0; i <= list.size(); i++) {
                 if (i == list.size()) {
                     list.add(profile);
@@ -273,8 +278,8 @@ public class CbUtils {
         return false;
     }
 
-    public static String removeMark(String s) {
-        return s.replace("%", "");
+    public static String removeMark(String s, String mark) {
+        return s.replace(mark, "");
     }
 
     public static String totalCashBack(Context context) {
@@ -282,17 +287,70 @@ public class CbUtils {
         Double total_db = 0.0;
         ArrayList<CashbackProfile> list = (ArrayList<CashbackProfile>) CbManager.getManager().getDB().getAllProfile(context.getContentResolver());
         for(CashbackProfile p : list) {
-            total_db += Double.parseDouble(p.getCashbackAmount());
+            if (TextUtils.equals(p.getCashbackState(), context.getResources().getStringArray(R.array.list_of_status)[2]))
+                total_db += Double.parseDouble(p.getCashbackAmount());
         }
-        total = String.valueOf(total_db);
+        total = String.valueOf(String.format("%.02f", total_db));
         return total;
     }
 
-    public static boolean isOver30Days(Date date) {
+    public static boolean isOver30Days(String sDate) {
+        String[] mdate = sDate.split("/");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, Integer.parseInt(mdate[2]));
+        cal.set(Calendar.MONTH, Integer.parseInt(mdate[0]) - 1);
+        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(mdate[1]));
+        Date date = cal.getTime();
         long millisecond = date.getTime();
-        if (System.currentTimeMillis() - millisecond > TIME * 24 * 60 * 60000) {
+        long current = System.currentTimeMillis();
+        if (current - millisecond > TIME * 24 * 60 * 60000) {
             return true;
         }
         return false;
+    }
+
+    public static ArrayList<CashbackProfile> getListOfUnpaidCbProfile(Context context) {
+        ArrayList<CashbackProfile> list = new ArrayList<>();
+        ArrayList<CashbackProfile> fullList = (ArrayList<CashbackProfile>) CbManager.getManager().getDB().getAllProfile(context.getContentResolver());
+        for(CashbackProfile p : fullList) {
+            if(isOver30Days(p.getDate()) && TextUtils.equals(p.getCashbackState(), context.getResources().getStringArray(R.array.list_of_status)[1])) {
+                list.add(p);
+            }
+        }
+        return list;
+    }
+
+    public static boolean isValidDateFormate(String date, Context context) {
+        String[] dates = date.split("/");
+        if(dates.length != 3) {
+            return false;
+        }
+        if(dates[0].length() != 2 && dates[1].length() != 2 && dates[2].length() != 4) {
+            return false;
+        }
+        String[] mm = context.getResources().getStringArray(R.array.mm);
+        if (!isContent(mm,dates[0])) {
+            return false;
+        }
+        String[] day = context.getResources().getStringArray(R.array.dd);
+        if (!isContent(day,dates[1])) {
+            return false;
+        }
+        String[] year = context.getResources().getStringArray(R.array.year);
+        if (!isContent(year,dates[2])) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isContent(String[] array, String s) {
+        boolean temp = false;
+        for(int i = 0; i < array.length; i++) {
+            if(TextUtils.equals(array[i],s)){
+                temp = true;
+                break;
+            }
+        }
+        return temp;
     }
 }

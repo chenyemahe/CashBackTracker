@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -22,7 +23,7 @@ public class AAProvider extends ContentProvider {
 
     public static final String DB_NAME = "acme_cashback_tracker.db";
 
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     private static final String TAG = "AAProvider";
 
@@ -62,6 +63,8 @@ public class AAProvider extends ContentProvider {
         String ORDER_TOTAL_COST = "order_total_cost";
 
         String ORDER_CATEGORY = "order_category";
+
+        String ORDER_PRICE_CB_AVAILABLE = "order_price_cb_available";
     }
 
     @Override
@@ -206,6 +209,15 @@ public class AAProvider extends ContentProvider {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.i(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion
                     + ", which will destroy all old data");
+            switch (oldVersion) {
+                case 1:
+                    try {
+                        // upgrade to DB version 2
+                        db.execSQL("ALTER TABLE " + ProfileColumns.TBL_AA_PROFILES + " ADD " + ProfileColumns.ORDER_PRICE_CB_AVAILABLE + " varchar");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+            }
         }
 
         @Override
