@@ -287,7 +287,8 @@ public class CbUtils {
         Double total_db = 0.0;
         ArrayList<CashbackProfile> list = (ArrayList<CashbackProfile>) CbManager.getManager().getDB().getAllProfile(context.getContentResolver());
         for(CashbackProfile p : list) {
-            if (TextUtils.equals(p.getCashbackState(), context.getResources().getStringArray(R.array.list_of_status)[2]))
+            if (TextUtils.equals(p.getCashbackState(), context.getResources().getStringArray(R.array.list_of_status)[2]) ||
+                    TextUtils.equals(p.getCashbackState(), context.getResources().getStringArray(R.array.list_of_status)[3]))
                 total_db += Double.parseDouble(p.getCashbackAmount());
         }
         total = String.valueOf(String.format("%.02f", total_db));

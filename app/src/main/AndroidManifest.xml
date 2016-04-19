@@ -42,6 +42,9 @@
         <activity android:name=".keywords.KeywordsSettingsPage">
         </activity>
 
+        <activity android:name=".menu.MenuPage">
+        </activity>
+
         <service android:name=".service.CbService">
 
         </service>

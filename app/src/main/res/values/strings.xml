@@ -25,6 +25,7 @@
     <string name="tv_state">Status</string>
     <string name="tv_main_total_save">Total Saving</string>
     <string name="dialog_body">Do you want to delete this order? If yes, press OK button.</string>
+    <string name="toast_no_list">No list exists. Keeping on Main View!</string>
 
     <!--String Add New Order -->
     <string name="tv_order_id">Order Number</string>
@@ -62,4 +63,14 @@
     <string name="notification_body_2">order\'s cashback does not get approved over 30 days!\nClick for checking!</string>
     <string name="notification_body_3">There are</string>
     <string name="notification_body_4">orders\' cashback do not get approved over 30 days!\nClick for checking!</string>
+
+    <!--Menu -->
+    <string name="menu_title">CASHBACK TRACKER MENU</string>
+    <string name="menu_1">Summary</string>
+    <string name="menu_2">Settings</string>
+    <string name="menu_3">Missing Cashback List</string>
+    <string name="menu_4">Show List by Category</string>
+    <string name="menu_5">Edit Cashback Company</string>
+
+    <string name="summary_title">CASHBACK TRACKER SUMMARY</string>
 </resources>

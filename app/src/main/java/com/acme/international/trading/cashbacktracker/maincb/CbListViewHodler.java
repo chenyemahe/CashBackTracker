@@ -50,10 +50,12 @@ public class CbListViewHodler {
         mOLCbState.setText(state);
         if (TextUtils.equals(state, CbUtils.getCbStateArray(mContext)[0])) {
             mOLCbState.setTextColor(mContext.getResources().getColor(android.R.color.black));
-        } else if (TextUtils.equals(state, CbUtils.getCbStateArray(mContext)[2])){
-            mOLCbState.setTextColor(mContext.getResources().getColor(android.R.color.holo_green_light));
-        } else {
-            mOLCbState.setTextColor(mContext.getResources().getColor(android.R.color.holo_red_light));
+        } else if (TextUtils.equals(state, CbUtils.getCbStateArray(mContext)[3])){
+            mOLCbState.setTextColor(mContext.getResources().getColor(android.R.color.holo_green_dark));
+        } else if(TextUtils.equals(state, CbUtils.getCbStateArray(mContext)[2])) {
+            mOLCbState.setTextColor(mContext.getResources().getColor(android.R.color.holo_orange_dark));
+        }else {
+            mOLCbState.setTextColor(mContext.getResources().getColor(android.R.color.holo_red_dark));
         }
     }
 

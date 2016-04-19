@@ -55,4 +55,13 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_height">match_parent</item>
     </style>
+
+    <style name="menu_text_style" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:background">@color/add_key_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
 </resources>

@@ -31,9 +31,9 @@
 
     <string-array name="list_of_status">
         <item>No CashBack</item>
+        <item>Untracked</item>
         <item>Pending</item>
         <item>Approved</item>
-        <item>Cashed</item>
     </string-array>
 
     <string-array name="list_of_main">
@@ -44,6 +44,7 @@
 
     <string-array name="list_of_view_selector">
         <item>Main View</item>
+        <item>Untracked List</item>
         <item>Pending List</item>
         <item>Approved List</item>
         <item>Go to Menu</item>

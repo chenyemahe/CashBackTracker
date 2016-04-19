@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.acme.international.trading.cashbacktracker.addorder.AddNewOrder;
 import com.acme.international.trading.cashbacktracker.CashbackProfile;
@@ -28,6 +29,7 @@ import com.acme.international.trading.cashbacktracker.R;
 import com.acme.international.trading.cashbacktracker.database.AAProvider;
 import com.acme.international.trading.cashbacktracker.database.CashbackDba;
 import com.acme.international.trading.cashbacktracker.keywords.KeywordsSettingsPage;
+import com.acme.international.trading.cashbacktracker.menu.MenuPage;
 
 import java.util.ArrayList;
 
@@ -211,8 +213,13 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
                     (getContentResolver(),CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE, key);
         }
         mExpandDataList = CbUtils.sortProfileByDate(profilesList);
-        if (mExpandDataList ==  null)
+        if (mExpandDataList ==  null) {
+            if (key != null) {
+                Toast.makeText(this.getApplicationContext(), getResources().getString(R.string.toast_no_list), Toast.LENGTH_LONG).show();
+                mListPinner.setSelection(0);
+            }
             return;
+        }
         mChildList = new ArrayList<ArrayList<CashbackProfile>>();
         setSignleLevelChildData();
         mExpandAdapter.setListData(mExpandDataList, mChildList, this);
@@ -230,17 +237,23 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
                 setExpViewData(null, null);
                 mExpandAdapter.notifiListUpdate();
                 break;
-            //Pending list
+            //Untracked list
             case 1:
                 setExpViewData(CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE, getResources().getStringArray(R.array.list_of_status)[1]);
                 mExpandAdapter.notifiListUpdate();
                 break;
-            //Approved List
+            //Pending list
             case 2:
                 setExpViewData(CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE, getResources().getStringArray(R.array.list_of_status)[2]);
                 mExpandAdapter.notifiListUpdate();
                 break;
+            //Approved List
             case 3:
+                setExpViewData(CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE, getResources().getStringArray(R.array.list_of_status)[3]);
+                mExpandAdapter.notifiListUpdate();
+                break;
+            case 4:
+                startActivity(new Intent(this, MenuPage.class));
                 break;
             default:
                 break;
