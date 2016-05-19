@@ -43,6 +43,7 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
     private EditText mCashbackAmount;
     private EditText mOrderCost;
     private EditText mOrderAvailableCost;
+    private AutoCompleteTextView mPaymentFrom;
     private AutoCompleteTextView mCat;
     private Button mSubmit;
 
@@ -57,6 +58,8 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
     private final static String TYPE_STORE = "type_store";
     private final static String TYPE_CASHBACK = "type_cashback";
     private final static String TYPE_CAT = "type_cat";
+    private final static String TYPE_PAYMENT_FROM = "type_payment_from";
+
 
     public final static String INTENT_TYPE_EDIT = "intent_type_edit";
     public final static String INTENT_TYPE_COPY = "intent_type_copy";
@@ -208,6 +211,12 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
         mCat.setAdapter(sAdapter3);
         mCat.setOnClickListener(this);
 
+        mPaymentFrom = (AutoCompleteTextView) findViewById(R.id.ed_payment_from);
+        ArrayAdapter<String> sAdapter4 = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, getStringArray(TYPE_PAYMENT_FROM));
+        mPaymentFrom.setAdapter(sAdapter4);
+        mPaymentFrom.setOnClickListener(this);
+
         mSubmit = (Button) findViewById(R.id.bt_submit);
         mSubmit.setOnClickListener(this);
 
@@ -253,6 +262,7 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
         TextView orderCost = (TextView) findViewById(R.id.tv_order_cost_3);
         TextView orderAvailableCost = (TextView) findViewById(R.id.tv_order_cost_3_2);
         TextView cat = (TextView) findViewById(R.id.tv_cat_3);
+        TextView paymentFrom = (TextView) findViewById(R.id.tv_payment_from_3);
 
         orderId.setText(profile.getOrderId());
         date.setText(profile.getDate());
@@ -265,6 +275,7 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
         orderCost.setText("$ " + profile.getCost());
         orderAvailableCost.setText("$ " + profile.getAvailableCost());
         cat.setText(profile.getCat());
+        paymentFrom.setText(profile.getPaymentFrom());
 
         orderId.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -325,6 +336,7 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
         String orderCat = mCat.getText().toString();
         String orderCost = mOrderCost.getText().toString();
         String orderAvailableCost = mOrderAvailableCost.getText().toString();
+        String orderPaymentFrom = mPaymentFrom.getText().toString();
 
         if (TextUtils.isEmpty(orderId) || TextUtils.isEmpty(orderDate)
                 || TextUtils.isEmpty(orderStore) || TextUtils.isEmpty(orderDetail) || TextUtils.isEmpty(orderCbCompany)
@@ -361,6 +373,7 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
             profile.setCat(orderCat);
             profile.setOrderCost(orderCost);
             profile.setAvailableCost(orderAvailableCost);
+            profile.setPaymentFrom(orderPaymentFrom);
 
             if (TextUtils.isEmpty(profileEditId)) {
                 CbManager.getManager().getDB().saveCbProfile(getContentResolver(), profile);
@@ -390,13 +403,17 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
             extraList = CbUtils.getCustomKeywordList(this, CbUtils.CASHBACK_KEYWORDS_LIST_WEBSITE).split(",");
         } else if (TextUtils.equals(type, TYPE_CAT)) {
             extraList = CbUtils.getCustomKeywordList(this, CbUtils.CASHBACK_KEYWORDS_LIST_CAT).split(",");
+        } else if (TextUtils.equals(type, TYPE_PAYMENT_FROM)) {
+            stringArrayFromRes = getResources().getStringArray(R.array.list_of_payment_source);
         }
-        if (stringArrayFromRes != null) {
+        if (stringArrayFromRes != null && extraList != null) {
             array = new String[stringArrayFromRes.length + extraList.length];
             System.arraycopy(stringArrayFromRes, 0, array, 0, stringArrayFromRes.length);
             System.arraycopy(extraList, 0, array, stringArrayFromRes.length, extraList.length);
-        } else {
+        } else if (stringArrayFromRes == null) {
             array = extraList;
+        } else if (extraList == null) {
+            array = stringArrayFromRes;
         }
         return array;
     }
@@ -424,6 +441,7 @@ public class AddNewOrder extends Activity implements OnClickListener, View.OnFoc
         mOrderAvailableCost.setText(profile.getAvailableCost());
         mCat.setText(profile.getCat());
         mCashbackAmount.setText(profile.getCashbackAmount());
+        mPaymentFrom.setText(profile.getPaymentFrom());
     }
 
     private int getSpinnerIndex(String s) {

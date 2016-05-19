@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class CbService extends Service {
 
-    private final int delay = 12 * 60 * 60000;
+    private int delay = 12 * 60 * 60000;
     private ScheduledFuture<?> futureTask;
     private ScheduledThreadPoolExecutor mExecutor;
     private final String TAG = "CbService";

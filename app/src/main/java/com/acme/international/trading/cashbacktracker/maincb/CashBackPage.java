@@ -46,13 +46,17 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
 
     private TextView mTotal;
     private boolean fistLauch;
+    private Spinner mSortPinner;
     private Spinner mListPinner;
+
+    private final String type_sort = "sort";
+    private final String type_view = "view";
 
     private ContentObserver mDbObserver = new ContentObserver(new Handler()) {
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
-            setCheckedData(mListPinner.getSelectedItemPosition());
+            setCheckedData(type_view, mListPinner.getSelectedItemPosition());
             mExpandAdapter.notifiListUpdate();
         }
 
@@ -72,14 +76,9 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
         mListView.setAdapter(mExpandAdapter);
         Button mAdd = (Button) findViewById(R.id.bt_add);
         mAdd.setOnClickListener(this);
-        Button mCbCompay = (Button) findViewById(R.id.bt_company);
-        mCbCompay.setOnClickListener(this);
-        mListPinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.list_of_view_selector, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mListPinner.setAdapter(adapter);
-        mListPinner.setOnItemSelectedListener(this);
+        Button mMenu = (Button) findViewById(R.id.bt_menu);
+        mMenu.setOnClickListener(this);
+        setSpinerView();
         fistLauch = true;
 
         mTotal = (TextView) findViewById(R.id.tv_title_2);
@@ -88,8 +87,10 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
     @Override
     protected void onResume() {
         super.onResume();
+        mSortPinner.setSelection(CbUtils.getSpinnerPrefs(this, CbUtils.PREFS_SPINNER_SORT_OPTION));
+        mListPinner.setSelection(CbUtils.getSpinnerPrefs(this, CbUtils.PREFS_SPINNER_VIEW_OPTION));
         //set view data
-        setExpViewData(null, null);
+        setExpViewData(mSortPinner.getSelectedItem().toString(), mListPinner.getSelectedItem().toString());
         if(fistLauch) {
             mListView.expandGroup(0);
             fistLauch = false;
@@ -121,8 +122,8 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
             case R.id.bt_add:
                 startActivity(new Intent(this, AddNewOrder.class));
                 break;
-            case R.id.bt_company:
-                startActivity(new Intent(this, KeywordsSettingsPage.class));
+            case R.id.bt_menu:
+                startActivity(new Intent(this, MenuPage.class));
                 break;
             default:
                 break;
@@ -204,15 +205,25 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
         }
     }
 
-    private void setExpViewData(String type, String key) {
+    private void setExpViewData(String spinner_sort_key, String key) {
+        key = CbUtils.keyMatchCbStatus(key, this);
+        spinner_sort_key = CbUtils.keyMatchSort(spinner_sort_key, this);
         ArrayList<CashbackProfile> profilesList = null;
-        if (type == null) {
-            profilesList = (ArrayList<CashbackProfile>) CbManager.getManager().getDB().getAllProfile(getContentResolver());
-        } else if (TextUtils.equals(type, CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE)) {
+        if (key != null) {
             profilesList = (ArrayList<CashbackProfile>) CbManager.getManager().getDB().getCbProfileBySelection
-                    (getContentResolver(),CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE, key);
+                    (getContentResolver(), CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE, key);
+        } else {
+            profilesList = (ArrayList<CashbackProfile>) CbManager.getManager().getDB().getAllProfile(getContentResolver());
         }
-        mExpandDataList = CbUtils.sortProfileByDate(profilesList);
+        if (spinner_sort_key == null) {
+            mExpandDataList = CbUtils.sortProfileByDate(profilesList);
+        } else if (TextUtils.equals(spinner_sort_key, CbUtils.MAIN_SPINNER_TYPE_BY_CB_STORE)) {
+            mExpandDataList = CbUtils.sortProfileByKeyWords(CbUtils.MAIN_SPINNER_TYPE_BY_CB_STORE, profilesList);
+        } else if (TextUtils.equals(spinner_sort_key, CbUtils.MAIN_SPINNER_TYPE_BY_CA)) {
+            mExpandDataList = CbUtils.sortProfileByKeyWords(CbUtils.MAIN_SPINNER_TYPE_BY_CA, profilesList);
+        } else if (TextUtils.equals(spinner_sort_key, CbUtils.MAIN_SPINNER_TYPE_BY_PAYMENT)) {
+            mExpandDataList = CbUtils.sortProfileByKeyWords(CbUtils.MAIN_SPINNER_TYPE_BY_PAYMENT, profilesList);
+        }
         if (mExpandDataList ==  null) {
             if (key != null) {
                 Toast.makeText(this.getApplicationContext(), getResources().getString(R.string.toast_no_list), Toast.LENGTH_LONG).show();
@@ -220,48 +231,48 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
             }
             return;
         }
-        mChildList = new ArrayList<ArrayList<CashbackProfile>>();
+        mChildList = new ArrayList<>();
         setSignleLevelChildData();
         mExpandAdapter.setListData(mExpandDataList, mChildList, this);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        setCheckedData(position);
+        if(parent.getId() == R.id.spinner) {
+            setCheckedData(type_view, position);
+        } else if(parent.getId() == R.id.spinner_1) {
+            setCheckedData(type_sort, position);
+        }
     }
 
-    private void setCheckedData(int position) {
-        switch (position) {
-            case 0:
-                //main view
-                setExpViewData(null, null);
-                mExpandAdapter.notifiListUpdate();
-                break;
-            //Untracked list
-            case 1:
-                setExpViewData(CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE, getResources().getStringArray(R.array.list_of_status)[1]);
-                mExpandAdapter.notifiListUpdate();
-                break;
-            //Pending list
-            case 2:
-                setExpViewData(CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE, getResources().getStringArray(R.array.list_of_status)[2]);
-                mExpandAdapter.notifiListUpdate();
-                break;
-            //Approved List
-            case 3:
-                setExpViewData(CashbackDba.PROFILE_SELECTION_BY_CASHBACK_STATE, getResources().getStringArray(R.array.list_of_status)[3]);
-                mExpandAdapter.notifiListUpdate();
-                break;
-            case 4:
-                startActivity(new Intent(this, MenuPage.class));
-                break;
-            default:
-                break;
+    private void setCheckedData(String main_type, int position) {
+        if (TextUtils.equals(main_type,type_view)) {
+            CbUtils.saveSpinnerPrefs(this, position, CbUtils.PREFS_SPINNER_VIEW_OPTION);
+        } else if (TextUtils.equals(main_type,type_sort)) {
+            CbUtils.saveSpinnerPrefs(this, position, CbUtils.PREFS_SPINNER_SORT_OPTION);
         }
+        setExpViewData(mSortPinner.getSelectedItem().toString(), mListPinner.getSelectedItem().toString());
+        mExpandAdapter.notifiListUpdate();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void setSpinerView() {
+        mSortPinner = (Spinner) findViewById(R.id.spinner_1);
+        ArrayAdapter<CharSequence> adapter_1 = ArrayAdapter.createFromResource(this,
+                R.array.list_of_view_sorter, android.R.layout.simple_spinner_item);
+        adapter_1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSortPinner.setAdapter(adapter_1);
+        mSortPinner.setOnItemSelectedListener(this);
+
+        mListPinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter_2 = ArrayAdapter.createFromResource(this,
+                R.array.list_of_view_selector, android.R.layout.simple_spinner_item);
+        adapter_2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mListPinner.setAdapter(adapter_2);
+        mListPinner.setOnItemSelectedListener(this);
     }
 }

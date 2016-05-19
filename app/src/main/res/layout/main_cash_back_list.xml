@@ -62,25 +62,40 @@
             android:background="#6F737F" />
 
         <Button
-            android:id="@+id/bt_company"
+            android:id="@+id/bt_menu"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="@string/cashbak_company"
+            android:text="@string/main_menu"
             android:textColor="@android:color/white" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_title_spin_hight"
+        android:layout_below="@+id/button_ly"
+        android:id="@+id/ll_spinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:weightSum="2"
+        android:orientation="horizontal">
 
     <Spinner
-        android:layout_width="@dimen/main_title_spin_width"
-        android:layout_height="@dimen/main_title_spin_hight"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/spinner_1"
+        android:layout_weight="1"
+        android:gravity="end"/>
+
+    <Spinner
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:id="@+id/spinner"
-        android:layout_below="@+id/button_ly"
-        android:gravity="end"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_weight="1"
+        android:gravity="end"/>
+    </LinearLayout>
 
     <ExpandableListView
         android:id="@+id/listView1"
@@ -90,7 +105,7 @@
         android:layout_alignStart="@+id/button_ly"
         android:background="@color/color_background"
         android:groupIndicator="@drawable/expend_indicator"
-        android:layout_below="@+id/spinner" >
+        android:layout_below="@+id/ll_spinner" >
     </ExpandableListView>
 
 </RelativeLayout>

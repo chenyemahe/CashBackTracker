@@ -130,6 +130,8 @@ public class CbExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     private int getSignleLevelChildNum(int groupPosition) {
+        if (mChildList == null)
+            return 0;
         int childNum = 0;
         if (TextUtils.equals(mStyle, CbUtils.EXPAND_ADAPTER_ORDER)) {
             if (mChildList.get(groupPosition).size() != 0) {
@@ -141,6 +143,7 @@ public class CbExpandableListAdapter extends BaseExpandableListAdapter {
 
     public void setListData(ArrayList<ArrayList<ArrayList<CashbackProfile>>> list,
             ArrayList<ArrayList<CashbackProfile>> childList, Context context) {
+        String temp = null;
         mOrderList = list;
         mContext = context;
         mGroupNameList = new ArrayList<String>();
@@ -148,7 +151,20 @@ public class CbExpandableListAdapter extends BaseExpandableListAdapter {
         for (int i = 0; i < mOrderList.size(); i++) {
             for (int j = 0; j < mOrderList.get(i).size(); j++) {
                 if (mOrderList.get(i).get(j).size() != 0) {
-                    mGroupNameList.add(mOrderList.get(i).get(j).get(0).getDate().split("/")[2]);
+                    String keySort = CbUtils.keyMatchSort(
+                            mContext.getResources().getStringArray(R.array.list_of_view_sorter)[CbUtils.getSpinnerPrefs(mContext, CbUtils.PREFS_SPINNER_SORT_OPTION)],mContext);
+                    if (keySort == null) {
+                        temp = mOrderList.get(i).get(j).get(0).getDate().split("/")[2];
+                    } else if(TextUtils.equals(keySort, CbUtils.MAIN_SPINNER_TYPE_BY_CB_STORE)) {
+                        temp = mOrderList.get(i).get(j).get(0).getCashbackCompany();
+                    } else if(TextUtils.equals(keySort, CbUtils.MAIN_SPINNER_TYPE_BY_CA)) {
+                        temp = mOrderList.get(i).get(j).get(0).getCat();
+                    } else if(TextUtils.equals(keySort, CbUtils.MAIN_SPINNER_TYPE_BY_PAYMENT)) {
+                        temp = mOrderList.get(i).get(j).get(0).getPaymentFrom();
+                    }
+                    if(TextUtils.isEmpty(temp))
+                        temp = mContext.getResources().getString(R.string.ed_default);
+                    mGroupNameList.add(temp);
                     break;
                 }
             }

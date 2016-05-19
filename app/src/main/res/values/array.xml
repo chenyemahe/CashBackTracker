@@ -29,6 +29,90 @@
         <item>Splender</item>
     </string-array>
 
+    <string-array name="list_of_payment_source">
+        <item>AmEx American Express</item>
+        <item>Chase</item>
+        <item>Citibank</item>
+        <item>Discover</item>
+        <item>BoA</item>
+        <item>Barclays</item>
+        <item>US Bank</item>
+        <item>Capital One</item>
+        <item>TD Bank</item>
+        <item>City National Bank</item>
+        <item>AmEx Hilton Surpass</item>
+        <item>AmEx Platinum Card</item>
+        <item>AmEx Platinum Card for Mercedes-Benz</item>
+        <item>AmEx Gold Delta SkyMiles</item>
+        <item>AmEx Hilton Credit Card</item>
+        <item>AmEx EveryDay Preferred (EDP)</item>
+        <item>AmEx Costco Credit Card</item>
+        <item>AmEx Blue Cash Everyday (BCE)</item>
+        <item>AmEx Blue Cash Preferred (BCP)</item>
+        <item>AmEx SPG</item>
+        <item>AmEx EveryDay (ED)</item>
+        <item>AmEx Platinum Card for Ameriprise</item>
+        <item>AmEx Gold Card</item>
+        <item>AmEx Green Card</item>
+        <item>AmEx Platinum Delta SkyMiles</item>
+        <item>AmEx Premier Rewards Gold (PRG)</item>
+        <item>AmEx Delta Reserve</item>
+        <item>AmEx Centurion Card</item>
+        <item>AmEx Old Blue Cash (OBC)</item>
+        <item>Chase Marriott Rewards Premier</item>
+        <item>Chase Southwest Plus</item>
+        <item>Chase Freedom Unlimited (CFU)</item>
+        <item>Chase IHG Credit Card</item>
+        <item>Chase Southwest Premier</item>
+        <item>Chase AARP Credit Card</item>
+        <item>Chase Sapphire Preferred (CSP)</item>
+        <item>Chase Freedom</item>
+        <item>Chase JP Morgan Palladium Credit Card</item>
+        <item>Chase Hyatt</item>
+        <item>Chase British Airways (Chase BA)</item>
+        <item>Chase Fairmont</item>
+        <item>Chase United MileagePlus Club</item>
+        <item>Chase United MileagePlus Explorer (Chase UA)</item>
+        <item>Chase Ritz-Carlton</item>
+        <item>Citi ATT Credit Card</item>
+        <item>Citi ThankYou Premier</item>
+        <item>Citi ThankYou Preferred</item>
+        <item>Citi Costco Credit Card</item>
+        <item>Citi ATT Credit Card No Annual Fee Version</item>
+        <item>Citi Dividend Credit Card</item>
+        <item>Citi Hilton</item>
+        <item>Citi AAdvantage BSGold</item>
+        <item>Citi Prestige</item>
+        <item>Citi AAdvantage Executive</item>
+        <item>Citi Hilton Reserve</item>
+        <item>Citi AAdvantage Platinum</item>
+        <item>Citi Double Cash (DC) Credit Card</item>
+        <item>Citi ThankYou Preferred for College Students</item>
+        <item>Discover it</item>
+        <item>Discover it Miles</item>
+        <item>BoA Cash Rewards (BoA 123)</item>
+        <item>BoA Amtrak Rewards</item>
+        <item>BoA Amtrak Rewards Platinum</item>
+        <item>BoA Virgin Atlantic(VS)</item>
+        <item>BoA Travel Rewards Credit Card</item>
+        <item>BoA Alaska</item>
+        <item>BoA Better Balance Rewards (BBR)</item>
+        <item>Barclaycard Arrival Plus Card</item>
+        <item>Barclaycard Arrival Card</item>
+        <item>Barclays Wyndham Credit Card</item>
+        <item>Barclays Wyndham No Annual Fee Version</item>
+        <item>US Bank Fidelity Visa Signature Credit Card</item>
+        <item>US Bank LifeMiles</item>
+        <item>US Bank FlexPerks Credit Card</item>
+        <item>US Bank Club Carlson Premier Card</item>
+        <item>US Bank Cash Plus Credit Card</item>
+        <item>Capital One Venture</item>
+        <item>Capital One Quicksilver Credit Card</item>
+        <item>Capital One VentureOne</item>
+        <item>Crystal Visa Infinite Credit Card</item>
+        <item>BBVA Compass NBA Card</item>
+    </string-array>
+    
     <string-array name="list_of_status">
         <item>No CashBack</item>
         <item>Untracked</item>
@@ -47,7 +131,13 @@
         <item>Untracked List</item>
         <item>Pending List</item>
         <item>Approved List</item>
-        <item>Go to Menu</item>
+    </string-array>
+
+    <string-array name="list_of_view_sorter">
+        <item>Sort by Date</item>
+        <item>By Cashback Store</item>
+        <item>By Category</item>
+        <item>By Payment</item>
     </string-array>
 
     <string-array name="list_of_product">

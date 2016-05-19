@@ -23,7 +23,7 @@ public class AAProvider extends ContentProvider {
 
     public static final String DB_NAME = "acme_cashback_tracker.db";
 
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     private static final String TAG = "AAProvider";
 
@@ -65,6 +65,8 @@ public class AAProvider extends ContentProvider {
         String ORDER_CATEGORY = "order_category";
 
         String ORDER_PRICE_CB_AVAILABLE = "order_price_cb_available";
+
+        String ORDER_PAYMENT_FROM = "order_payment_from";
     }
 
     @Override
@@ -214,6 +216,13 @@ public class AAProvider extends ContentProvider {
                     try {
                         // upgrade to DB version 2
                         db.execSQL("ALTER TABLE " + ProfileColumns.TBL_AA_PROFILES + " ADD " + ProfileColumns.ORDER_PRICE_CB_AVAILABLE + " varchar");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                case 2:
+                    try {
+                        // upgrade to DB version 3
+                        db.execSQL("ALTER TABLE " + ProfileColumns.TBL_AA_PROFILES + " ADD " + ProfileColumns.ORDER_PAYMENT_FROM + " varchar");
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

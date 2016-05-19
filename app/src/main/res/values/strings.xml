@@ -26,6 +26,7 @@
     <string name="tv_main_total_save">Total Saving</string>
     <string name="dialog_body">Do you want to delete this order? If yes, press OK button.</string>
     <string name="toast_no_list">No list exists. Keeping on Main View!</string>
+    <string name="main_menu">MENU</string>
 
     <!--String Add New Order -->
     <string name="tv_order_id">Order Number</string>
@@ -51,6 +52,8 @@
     <string name="ed_default">Default</string>
     <string name="values_not_valid">The value is not valid! Please input 0 ~ 100!</string>
     <string name="tv_part_cost">Available for CB</string>
+    <string name="tv_payment_from">Payment Source</string>
+    <string name="tv_payment_hint">Default</string>
 
     <!-- String Keywords Settings -->
     <string name="tv_cashback_website"><b>Cashback Websites</b></string>

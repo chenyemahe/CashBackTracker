@@ -277,9 +277,32 @@
                         android:id="@+id/ed_cashback_amount"
                         android:layout_width="0dp"
                         style="@style/add_order_edit_text_style"
+                        android:imeOptions="actionNext"
                         android:layout_weight="1"
                         android:inputType="numberDecimal"
                         android:scrollHorizontally="true" />
+                </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/tv_payment_from"
+                        android:layout_width="wrap_content"
+                        style="@style/add_order_text_style"
+                        android:text="@string/tv_payment_from"/>
+                    <AutoCompleteTextView
+                        android:id="@+id/ed_payment_from"
+                        android:layout_width="0dp"
+                        style="@style/add_order_edit_text_style"
+                        android:layout_weight="1"
+                        android:inputType="textPostalAddress"
+                        android:scrollHorizontally="true"
+                        android:text="@string/tv_payment_hint" />
                 </TableRow>
 
                 <Button
@@ -509,6 +532,26 @@
 
                     <TextView
                         android:id="@+id/tv_cat_3"
+                        android:layout_width="0dp"
+                        style="@style/add_order_text_style_3"
+                        android:layout_weight="1" />
+                </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divid_alarm_1" />
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/tv_payment_from_2"
+                        android:layout_width="wrap_content"
+                        style="@style/add_order_text_style_2"
+                        android:text="@string/tv_payment_from"/>
+
+                    <TextView
+                        android:id="@+id/tv_payment_from_3"
                         android:layout_width="0dp"
                         style="@style/add_order_text_style_3"
                         android:layout_weight="1" />
