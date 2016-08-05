@@ -57,7 +57,6 @@ public class CashBackPage extends Activity implements View.OnClickListener, Adap
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             setCheckedData(type_view, mListPinner.getSelectedItemPosition());
-            mExpandAdapter.notifiListUpdate();
         }
 
         @Override
